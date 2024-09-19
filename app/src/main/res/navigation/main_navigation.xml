@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/slashFragment"
-        android:name="com.example.voicechanger.SlashFragment"
+        android:name="com.example.voicechanger.fragment.SlashFragment"
         android:label="fragment_slash"
         tools:layout="@layout/fragment_slash" >
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.voicechanger.HomeFragment"
+        android:name="com.example.voicechanger.fragment.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
 </navigation>
