@@ -1,6 +1,7 @@
 package com.example.voicechanger.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
@@ -11,10 +12,12 @@ import com.example.voicechanger.base.fragment.BaseFragmentNotRequireViewModel
 import com.example.voicechanger.databinding.FragmentSlashBinding
 import com.example.voicechanger.navigation.AppNavigation
 import com.example.voicechanger.pref.AppPreferences
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class SlashFragment : BaseFragmentNotRequireViewModel<FragmentSlashBinding>(R.layout.fragment_slash) {
 
     @Inject
@@ -48,13 +51,7 @@ class SlashFragment : BaseFragmentNotRequireViewModel<FragmentSlashBinding>(R.la
     }
 
     private fun startHomePage() {
-        if (!VoiceChangerApplication.hasPermissions(requireContext(),
-                VoiceChangerApplication.ALL_PERMISSIONS_LIST.toString()
-            )) {
-            ActivityCompat.requestPermissions(requireActivity(), VoiceChangerApplication.ALL_PERMISSIONS_LIST, VoiceChangerApplication.PERMISSION_TOKEN)
-        } else {
-            appNavigation.openSplashToHomeScreen()
-        }
+        appNavigation.openSplashToHomeScreen()
     }
 
     private fun requestPermissions() {

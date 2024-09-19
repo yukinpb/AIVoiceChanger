@@ -3,6 +3,7 @@ package com.example.voicechanger.di
 import com.example.voicechanger.navigation.AppNavigation
 import com.example.voicechanger.navigation.AppNavigatorImpl
 import com.example.voicechanger.navigationComponent.BaseNavigator
+import com.example.voicechanger.navigationComponent.BaseNavigatorImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -15,7 +16,7 @@ abstract class NavigationModule {
 
     @Binds
     @ActivityScoped
-    abstract fun provideBaseNavigation(navigation: AppNavigatorImpl): BaseNavigator
+    abstract fun provideBaseNavigation(navigation: BaseNavigatorImpl): BaseNavigator
 
     @Binds
     @ActivityScoped

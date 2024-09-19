@@ -83,5 +83,5 @@ dependencies {
 
     implementation("com.arthenica:mobile-ffmpeg-full-gpl:4.4.LTS")
     implementation("com.tbuonomo:dotsindicator:5.0")
-    implementation("com.airbnb.android:lottie:2.2.5")
+    implementation("com.airbnb.android:lottie:6.5.2")
 }
