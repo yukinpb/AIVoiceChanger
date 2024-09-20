@@ -799,5 +799,6 @@
     <dimen name="_minus7sdp">-7dp</dimen>
     <dimen name="_minus8sdp">-8dp</dimen>
     <dimen name="_minus9sdp">-9dp</dimen>
+    <dimen name="_2ddp">2dp</dimen>
 
 </resources>
