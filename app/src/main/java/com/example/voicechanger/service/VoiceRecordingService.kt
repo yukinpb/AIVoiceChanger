@@ -10,31 +10,23 @@ import android.media.MediaRecorder
 import android.os.Binder
 import android.os.Build
 import android.os.IBinder
-import androidx.annotation.OptIn
 import androidx.core.app.NotificationCompat
-import androidx.media3.common.util.Log
-import androidx.media3.common.util.UnstableApi
-import androidx.media3.extractor.DtsUtil
-import com.example.voicechanger.listener.OnRecordingStatusChangedListener
-import com.example.voicechanger.model.RecordingModel
 import com.example.voicechanger.R
-import com.example.voicechanger.utils.FileUtils
+import com.example.voicechanger.listener.OnRecordingStatusChangedListener
+import com.example.voicechanger.utils.getVoiceRecordDirPath
 import java.io.File
 import java.util.Timer
 import java.util.TimerTask
 
-class VoiceRecordingService(
-    private val context: Context
-) : Service() {
+class VoiceRecordingService: Service() {
 
-    var isRecording = false
-    var isResumeRecording = false
     private var strFileName: String? = null
     private var strFilePath: String? = null
     private var mediaRecorder: MediaRecorder? = null
     private var timerTask: TimerTask? = null
-    private var mElapsedMillis: Long = 0
-    private  var onRecordingStatusChangedListener: OnRecordingStatusChangedListener? = null
+    private var startTime = 0L
+    private var elapsedTime = 0L
+    private var onRecordingStatusChangedListener: OnRecordingStatusChangedListener? = null
 
     private val myBinder = LocalBinder()
 
@@ -54,100 +46,69 @@ class VoiceRecordingService(
 
     override fun onDestroy() {
         super.onDestroy()
-        mediaRecorder?.let { recordingStop() }
+        mediaRecorder?.let { stopRecording() }
         onRecordingStatusChangedListener = null
     }
 
-    @OptIn(UnstableApi::class)
     fun startRecording(maxDuration: Int) {
         try {
             startForeground(2, notificationCreate())
             setFileNamePath()
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                mediaRecorder = MediaRecorder(context).apply {
-                    setAudioSource(MediaRecorder.AudioSource.MIC)
-                    setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
-                    setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
-                    setOutputFile(strFilePath)
-                    setMaxDuration(maxDuration)
-                    setAudioChannels(1)
-                    setAudioSamplingRate(44100)
-                    setAudioEncodingBitRate(DtsUtil.DTS_MAX_RATE_BYTES_PER_SECOND)
-                    setOnInfoListener { _, what, _ ->
-                        if (what == MediaRecorder.MEDIA_RECORDER_INFO_MAX_DURATION_REACHED) {
-                            recordingStop()
-                        }
-                    }
-                    prepare()
-                    start()
-                }
+            mediaRecorder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                MediaRecorder(applicationContext)
             } else {
-                mediaRecorder = MediaRecorder().apply {
-                    setAudioSource(MediaRecorder.AudioSource.MIC)
-                    setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
-                    setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
-                    setOutputFile(strFilePath)
-                    setMaxDuration(maxDuration)
-                    setAudioChannels(1)
-                    setAudioSamplingRate(44100)
-                    setAudioEncodingBitRate(DtsUtil.DTS_MAX_RATE_BYTES_PER_SECOND)
-                    setOnInfoListener { _, what, _ ->
-                        if (what == MediaRecorder.MEDIA_RECORDER_INFO_MAX_DURATION_REACHED) {
-                            recordingStop()
-                        }
-                    }
-                    prepare()
-                    start()
-                }
+                MediaRecorder()
             }
-            isRecording = true
-            isResumeRecording = true
-            timerStart()
-        } catch (e: Exception) {
-            Log.e(TAG, "startRecording(): prepare() failed $e")
-        }
-        onRecordingStatusChangedListener?.onStartedRecording()
+            mediaRecorder?.apply {
+                setAudioSource(MediaRecorder.AudioSource.MIC)
+                setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
+                setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
+                setOutputFile(strFilePath)
+                setMaxDuration(maxDuration)
+                setAudioChannels(1)
+                setAudioSamplingRate(44100)
+                setOnInfoListener { _, what, _ ->
+                    if (what == MediaRecorder.MEDIA_RECORDER_INFO_MAX_DURATION_REACHED) {
+                        stopRecording()
+                    }
+                }
+                prepare()
+                start()
+            }
+            startTimer()
+        } catch (e: Exception) { }
     }
 
     private fun setFileNamePath() {
-        strFileName = "Voice_effect_${System.currentTimeMillis()}"
-        strFilePath = "${FileUtils.getMainDirPath(this)}/$strFileName.mp3"
+        strFileName = "Recording_${System.currentTimeMillis()}"
+        strFilePath = "${this.getVoiceRecordDirPath()}/$strFileName.mp3"
     }
 
-    private fun timerStart() {
+    private fun startTimer() {
         val timer = Timer()
-        mElapsedMillis = 0
+        startTime = System.currentTimeMillis()
         timerTask = object : TimerTask() {
             override fun run() {
                 timerTask?.let {
-                    mElapsedMillis += 100
-                    onRecordingStatusChangedListener?.onTimerChanged((mElapsedMillis / 1000).toInt())
-                    mediaRecorder?.let { recorder ->
-                        try {
-                            onRecordingStatusChangedListener?.onAmplitudeInfo(recorder.maxAmplitude)
-                        } catch (e: Exception) {
-                            e.printStackTrace()
-                        }
-                    }
+                    val currentTime = System.currentTimeMillis()
+                    elapsedTime = currentTime - startTime
+                    onRecordingStatusChangedListener?.onTimerChanged(elapsedTime)
                 } ?: cancel()
             }
         }
-        timer.schedule(timerTask, 100, 100)
+        timer.schedule(timerTask, 1000, 1000)
     }
 
-    fun recordingStop() {
+    fun stopRecording() {
         try {
             mediaRecorder?.apply {
                 stop()
                 release()
             }
-            isRecording = false
-            isResumeRecording = false
             mediaRecorder = null
             timerTask?.cancel()
             timerTask = null
-            val recordingModel = RecordingModel(strFileName, strFilePath, mElapsedMillis, System.currentTimeMillis(), 0)
-            onRecordingStatusChangedListener?.onStopRecording(recordingModel)
+            onRecordingStatusChangedListener?.onStopRecording(strFilePath ?: "")
             if (onRecordingStatusChangedListener == null) {
                 stopSelf()
             }
@@ -157,17 +118,14 @@ class VoiceRecordingService(
         }
     }
 
-    fun fileRecordSkip() {
+    fun resetRecording() {
         try {
             mediaRecorder?.apply {
                 stop()
                 release()
             }
-            isRecording = false
-            isResumeRecording = false
             mediaRecorder = null
-            mElapsedMillis = 0
-            onRecordingStatusChangedListener?.onSkipRecording()
+            elapsedTime = 0L
             timerTask?.cancel()
             timerTask = null
             strFilePath?.let {
@@ -188,8 +146,6 @@ class VoiceRecordingService(
     fun pauseRecording() {
         try {
             mediaRecorder?.pause()
-            isResumeRecording = false
-            onRecordingStatusChangedListener?.onPauseRecording()
             timerTask?.cancel()
             timerTask = null
         } catch (e: Exception) {
@@ -200,33 +156,18 @@ class VoiceRecordingService(
     fun resumeRecording() {
         try {
             mediaRecorder?.resume()
-            isResumeRecording = true
-            onRecordingStatusChangedListener?.onResumeRecording()
-            val timer = Timer()
-            timerTask = object : TimerTask() {
-                override fun run() {
-                    timerTask?.let {
-                        mElapsedMillis += 100
-                        onRecordingStatusChangedListener?.onTimerChanged((mElapsedMillis / 1000).toInt())
-                        mediaRecorder?.let { recorder ->
-                            try {
-                                onRecordingStatusChangedListener?.onAmplitudeInfo(recorder.maxAmplitude)
-                            } catch (e: Exception) {
-                                e.printStackTrace()
-                            }
-                        }
-                    } ?: cancel()
-                }
-            }
-            timer.schedule(timerTask, 100, 100)
+            startTimer()
         } catch (e: Exception) {
             println("RecordingService.resumeRecording e = $e")
         }
     }
 
     private fun notificationCreate(): Notification {
-        return NotificationCompat.Builder(applicationContext, if (Build.VERSION.SDK_INT >= 26) notificationChannelCreate() else "")
-            .setSmallIcon(R.drawable.ic_mic_white_36dp)
+        return NotificationCompat.Builder(
+            applicationContext,
+            if (Build.VERSION.SDK_INT >= 26) notificationChannelCreate() else ""
+        )
+            .setSmallIcon(R.mipmap.ic_mic_white_36dp)
             .setContentTitle(getString(R.string.notification_recording))
             .setOngoing(true)
             .build()
@@ -234,19 +175,23 @@ class VoiceRecordingService(
 
     private fun notificationChannelCreate(): String {
         if (Build.VERSION.SDK_INT >= 26) {
-            val notificationChannel = NotificationChannel("recording_service", "Recording Service", NotificationManager.IMPORTANCE_LOW)
+            val notificationChannel = NotificationChannel(
+                "recording_service",
+                "Recording Service",
+                NotificationManager.IMPORTANCE_LOW
+            )
             notificationChannel.lightColor = -16776961
             notificationChannel.lockscreenVisibility = Notification.VISIBILITY_PRIVATE
-            (getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).createNotificationChannel(notificationChannel)
+            (getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).createNotificationChannel(
+                notificationChannel
+            )
         }
         return "recording_service"
     }
 
-    fun isRecording(): Boolean = isRecording
+    override fun onTaskRemoved(rootIntent: Intent?) {
+        super.onTaskRemoved(rootIntent)
 
-    fun isResumeRecording(): Boolean = isResumeRecording
-
-    companion object {
-        private const val TAG = "VoiceRecordingService"
+        stopRecording()
     }
 }

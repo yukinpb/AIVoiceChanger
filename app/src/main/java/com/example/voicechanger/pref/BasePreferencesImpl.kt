@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 private val Context.userPreferencesDataStore: DataStore<Preferences> by preferencesDataStore(
-    name = Constants.PREF_FILE_NAME
+    name = Constants.Preferences.PREF_FILE_NAME
 )
 
 abstract class BasePreferencesImpl(context: Context) : BasePreferences {

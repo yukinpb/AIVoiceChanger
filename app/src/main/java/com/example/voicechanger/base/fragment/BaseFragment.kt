@@ -21,7 +21,5 @@ abstract class BaseFragment<BD : ViewDataBinding, VM : BaseViewModel>(@LayoutRes
         viewModel.isLoading.observe(viewLifecycleOwner) {
             showHideLoading(it)
         }
-
     }
-
 }

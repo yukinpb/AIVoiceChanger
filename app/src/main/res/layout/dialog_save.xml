@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <RelativeLayout
+        android:orientation="vertical"
+        android:tag="layout/download_dialog_0"
+        android:background="@drawable/bg_corner_10"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:backgroundTint="@color/white">
+
+        <TextView
+            android:textSize="@dimen/_20sdp"
+            android:textColor="@color/black"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/txt1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/save"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="@font/poppins_bold"/>
+
+        <RelativeLayout
+            android:id="@+id/rlyEdit"
+            android:background="@drawable/bg_corner_10"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_below="@+id/txt1"
+            android:backgroundTint="@color/color_voicelist_bg">
+
+            <EditText
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/grayText"
+                android:ellipsize="end"
+                android:id="@+id/input"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_50sdp"
+                android:singleLine="true"
+                android:paddingStart="16dp"
+                android:paddingEnd="45dp"
+                android:backgroundTint="@android:color/transparent"/>
+
+            <ImageView
+                android:id="@+id/iv_del"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="5dp"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_close"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="10dp"
+                android:layout_alignParentEnd="true"/>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="5dp"
+            android:weightSum="2"
+
+            android:layout_below="@+id/rlyEdit">
+            <TextView
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/grayText"
+                android:gravity="center"
+                android:id="@+id/tv_cancel"
+                android:background="@drawable/bg_record"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:text="@string/cancel"
+                android:layout_weight="1"
+                android:layout_marginEnd="@dimen/_14sdp"/>
+
+            <TextView
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:id="@+id/tv_ok"
+                android:background="@drawable/bg_gradient"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:text="@string/OK"
+                android:layout_weight="1"/>
+        </LinearLayout>
+    </RelativeLayout>
+</layout>
+

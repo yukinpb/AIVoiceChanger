@@ -14,4 +14,48 @@ class AppNavigatorImpl @Inject constructor() : BaseNavigatorImpl(),
     override fun openSplashToHomeScreen(bundle: Bundle?) {
         openScreen(R.id.action_slashFragment_to_homeFragment, bundle)
     }
+
+    override fun openHomeToRecordingScreen(bundle: Bundle?) {
+        openScreen(R.id.action_homeFragment_to_recordingFragment, bundle)
+    }
+
+    override fun openRecordingToChangeEffectScreen(bundle: Bundle?) {
+        openScreen(R.id.action_recordingFragment_to_changeEffectFragment, bundle)
+    }
+
+    override fun openChangeEffectToPlayerScreen(bundle: Bundle?) {
+        openScreen(R.id.action_changeEffectFragment_to_audioPlayerFragment, bundle)
+    }
+
+    override fun openRecordingToHomeScreen(bundle: Bundle?) {
+        openScreen(R.id.action_recordingFragment_to_homeFragment, bundle)
+    }
+
+    override fun openAudioPlayerToRecordingScreen(bundle: Bundle?) {
+        openScreen(R.id.action_audioPlayerFragment_to_recordingFragment, bundle)
+    }
+
+    override fun openAudioPlayerToHomeScreen(bundle: Bundle?) {
+        openScreen(R.id.action_audioPlayerFragment_to_homeFragment, bundle)
+    }
+
+    override fun openHomeToTextToAudioScreen(bundle: Bundle?) {
+        openScreen(R.id.action_homeFragment_to_textToAudioFragment, bundle)
+    }
+
+    override fun openTextToAudioToChangeEffectScreen(bundle: Bundle?) {
+        openScreen(R.id.action_textToAudioFragment_to_changeEffectFragment, bundle)
+    }
+
+    override fun openHomeToAudioListScreen(bundle: Bundle?) {
+        openScreen(R.id.action_homeFragment_to_audioListFragment, bundle)
+    }
+
+    override fun openAudioListToAudioPlayerScreen(bundle: Bundle?) {
+        openScreen(R.id.action_audioListFragment_to_audioPlayerFragment, bundle)
+    }
+
+    override fun openAudioListToChangeEffectScreen(bundle: Bundle?) {
+        openScreen(R.id.action_audioListFragment_to_changeEffectFragment, bundle)
+    }
 }

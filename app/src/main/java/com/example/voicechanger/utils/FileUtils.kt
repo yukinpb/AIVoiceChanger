@@ -1,45 +1,65 @@
 package com.example.voicechanger.utils
 
-import android.app.Activity
 import android.content.Context
+import android.media.MediaMetadataRetriever
 import android.os.Environment
-import android.util.Log
 import com.example.voicechanger.R
 import java.io.File
 
-object FileUtils {
-    fun getMainDirPath(context: Context): String {
-        return try {
-            val file = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString() + "/" + context.resources.getString(R.string.app_name), "VoiceEffectAudio")
-            Log.e("xz---", "getMainDirPath: voiceEffectAudioFilePath ::  $file")
-            if (!file.exists()) {
-                file.mkdirs()
-            }
-            file.absolutePath
-        } catch (e: Exception) {
-            context.filesDir.absolutePath
-        }
-    }
-
-    fun getDirectory(activity: Activity): File {
-        val file = File(Environment.getExternalStorageDirectory().path + "/" + Environment.DIRECTORY_DOWNLOADS + "/" + activity.resources.getString(R.string.app_name) + "/VoiceEffects")
-        Log.e("xz---", "getMainDirPath: voiceEffectDirPath ::  $file")
+fun Context.getVoiceRecordDirPath(): String {
+    return try {
+        val file = File(
+            Environment.getExternalStorageDirectory().path + "/" + Environment.DIRECTORY_DOWNLOADS + "/" + this.resources.getString(
+                R.string.app_name
+            ) + "/" + Constants.Directories.VOICE_RECORDER_DIR
+        )
         if (!file.exists()) {
             file.mkdirs()
         }
-        return file
-    }
-
-    fun milliSecFormat(j: Long): String {
-        val hours = (j / 3600000).toInt()
-        val remainingMillis = j % 3600000
-        val minutes = (remainingMillis / 60000).toInt()
-        val seconds = Math.round((remainingMillis % 60000 / 1000).toFloat())
-
-        val hoursStr = if (hours > 0) "$hours:" else ""
-        val minutesStr = if (minutes < 10) "0$minutes" else "$minutes"
-        val secondsStr = if (seconds < 10) "0$seconds" else "$seconds"
-
-        return "$hoursStr$minutesStr:$secondsStr"
+        file.absolutePath
+    } catch (e: Exception) {
+        this.filesDir.absolutePath
     }
 }
+
+fun Context.getVoiceEffectDirPath(): String {
+    return try {
+        val file = File(
+            Environment.getExternalStorageDirectory().path + "/" + Environment.DIRECTORY_DOWNLOADS + "/" + this.resources.getString(
+                R.string.app_name
+            ) + "/" + Constants.Directories.VOICE_CHANGER_DIR
+        )
+        if (!file.exists()) {
+            file.mkdirs()
+        }
+        file.absolutePath
+    } catch (e: Exception) {
+        this.filesDir.absolutePath
+    }
+}
+
+fun File.getDuration(): String {
+    val retriever = MediaMetadataRetriever()
+    retriever.setDataSource(this.absolutePath)
+    val durationInMillis = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)?.toInt() ?: 0
+    retriever.release()
+    return durationInMillis.toLong().milliSecFormat()
+}
+
+fun File.getSize(): String {
+    val sizeInBytes = this.length()
+    val sizeInKB = sizeInBytes / 1024.0
+
+    return when {
+        sizeInKB >= 1048576.0 -> {
+            String.format("%.2f GB", sizeInKB / 1024.0 / 1024.0)
+        }
+        sizeInKB >= 1024.0 -> {
+            String.format("%.2f MB", sizeInKB / 1024.0)
+        }
+        else -> {
+            String.format("%.2f KB", sizeInKB)
+        }
+    }
+}
+

@@ -1,6 +1,7 @@
 package com.example.voicechanger.fragment
 
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -12,9 +13,12 @@ import com.example.voicechanger.base.fragment.BaseFragmentNotRequireViewModel
 import com.example.voicechanger.databinding.FragmentSlashBinding
 import com.example.voicechanger.navigation.AppNavigation
 import com.example.voicechanger.pref.AppPreferences
+import com.example.voicechanger.utils.getVoiceRecordDirPath
+import com.example.voicechanger.utils.setOnSafeClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.io.File
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -43,10 +47,21 @@ class SlashFragment : BaseFragmentNotRequireViewModel<FragmentSlashBinding>(R.la
 
         lifecycleScope.launch {
             binding.animationView.resumeAnimation()
-
-            delay(3000)
-
+            removeAllTempFile()
+            delay(1500)
             requestPermissions()
+        }
+    }
+
+    private fun removeAllTempFile() {
+        val directory = File(requireContext().getVoiceRecordDirPath())
+
+        if (directory.exists()) {
+            directory.listFiles()?.forEach { file ->
+                if (file.name.contains("_temp")) {
+                    file.delete()
+                }
+            }
         }
     }
 

@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@drawable/bg_corner_10"
+    android:paddingLeft="@dimen/_16sdp"
+    android:paddingTop="@dimen/_5sdp"
+    android:paddingRight="@dimen/_16sdp"
+    android:paddingBottom="@dimen/_5sdp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/_16sdp"
+    android:backgroundTint="@color/white"
+    android:paddingHorizontal="@dimen/_16sdp"
+    android:paddingVertical="5dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_5sdp">
+
+        <TextView
+            android:textSize="@dimen/_22ssp"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/my_voice"
+            android:layout_centerInParent="true"/>
+
+        <ImageView
+            android:id="@+id/imgClose"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="@dimen/_8sdp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_iap_close"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_7sdp">
+        <LinearLayout
+            android:id="@+id/llyRename"
+            android:background="@drawable/bg_item_unselect"
+            android:padding="@dimen/_10sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/color_menu_dg">
+
+            <ImageView
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/bg_corner_10"
+                android:padding="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_rename"
+                android:backgroundTint="@color/bgUnselected"/>
+
+            <TextView
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/rename"
+                android:layout_marginStart="16dp" />
+        </LinearLayout>
+
+        <View
+            android:background="@color/bgUnselected"
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:layout_marginVertical="@dimen/_5sdp"/>
+
+        <LinearLayout
+            android:id="@+id/setAsRing"
+            android:background="@drawable/bg_item_unselect"
+            android:padding="@dimen/_10sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/color_menu_dg">
+
+            <ImageView
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/bg_corner_10"
+                android:padding="@dimen/_10sdp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_set_ringtone"
+                android:backgroundTint="@color/bgUnselected"/>
+
+            <TextView
+                android:textSize="@dimen/_18ssp"
+                android:textColor="@color/black"
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/set_as_ringtone"
+                android:layout_marginStart="@dimen/_16sdp" />
+        </LinearLayout>
+
+        <View
+            android:background="@color/bgUnselected"
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:layout_marginVertical="@dimen/_5sdp"/>
+
+        <LinearLayout
+            android:id="@+id/share"
+            android:background="@drawable/bg_item_unselect"
+            android:padding="@dimen/_10sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/color_menu_dg">
+
+            <ImageView
+                android:layout_gravity="center_vertical"
+                android:id="@+id/imgLang"
+                android:background="@drawable/bg_corner_10"
+                android:padding="@dimen/_10sdp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_share"
+                android:backgroundTint="@color/bgUnselected"/>
+
+            <TextView
+                android:textSize="@dimen/_18ssp"
+                android:textColor="@color/black"
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/share"
+                android:layout_marginStart="@dimen/_16sdp" />
+        </LinearLayout>
+
+        <View
+            android:background="@color/bgUnselected"
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:layout_marginVertical="@dimen/_5sdp"/>
+
+        <LinearLayout
+            android:id="@+id/delete"
+            android:background="@drawable/bg_item_unselect"
+            android:padding="@dimen/_10sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/color_menu_dg">
+
+            <ImageView
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/bg_corner_10"
+                android:padding="@dimen/_10sdp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_delete"
+                android:backgroundTint="@color/bgUnselected"/>
+
+            <TextView
+                android:textSize="@dimen/_18ssp"
+                android:textColor="@color/black"
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/delete"
+                android:layout_marginStart="@dimen/_16sdp"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

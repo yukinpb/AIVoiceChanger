@@ -2,526 +2,250 @@
   {
     "id": 1,
     "icon": "Images.Normal",
-    "name": "voice.Normal",
-    "pitch": 0,
-    "rate": 0,
-    "reverb": []
+    "name": "voice.Normal"
   },
   {
     "id": 2,
     "icon": "Images.Helium",
     "name": "voice.Helium",
-    "pitch": 10,
-    "rate": 0,
-    "reverb": []
+    "asetrate": "48000*2",
+    "atempo": "0.5"
   },
   {
     "id": 3,
     "icon": "Images.Robot",
     "name": "voice.Robot",
-    "pitch": 3,
-    "rate": 5,
-    "amplify": 10,
-    "echo": [
-      100,
-      100,
-      40
-    ]
+    "asetrate": "44100*1.2",
+    "aecho": "0.1:0.3:2000:0.1"
   },
   {
     "id": 4,
     "icon": "Images.Cave",
     "name": "voice.Cave",
-    "pitch": 0,
-    "rate": 0,
-    "reverb": [
-      -3.25,
-      2000,
-      0.8
-    ]
+    "aecho": "0.1:0.9:2000:0.5",
+    "aresample": "44100"
   },
   {
     "id": 5,
     "icon": "Images.Monster",
     "name": "voice.Monster",
-    "pitch": -10,
-    "rate": -25,
-    "reverb": [
-      -2.25,
-      1000,
-      0.7
-    ]
+    "asetrate": "44100*0.8",
+    "atempo": "1.25",
+    "aecho": "0.1:0.5:2000:0.3"
   },
   {
     "id": 6,
     "icon": "Images.Nervous",
     "name": "voice.Nervous",
-    "pitch": 1,
-    "rate": 50,
-    "reverb": []
+    "atempo": "1.5",
+    "aecho": "0.1:0.3:1000:0.1"
   },
   {
     "id": 7,
     "icon": "Images.Drunk",
     "name": "voice.Drunk",
-    "pitch": -5,
-    "rate": -45,
-    "reverb": []
+    "atempo": "0.8",
+    "asetrate": "44100*0.9",
+    "aecho": "0.1:0.4:1000:0.1"
   },
   {
     "id": 8,
     "icon": "Images.Squirrel",
     "name": "voice.Squirrel",
-    "pitch": 12,
-    "rate": 150,
-    "reverb": []
+    "asetrate": "44100*1.5",
+    "atempo": "0.67"
   },
   {
     "id": 9,
     "icon": "Images.Child",
     "name": "voice.Child",
-    "pitch": 6,
-    "rate": 0,
-    "reverb": []
+    "asetrate": "44100*1.5",
+    "atempo": "0.67"
   },
   {
     "id": 10,
     "icon": "Images.Death",
     "name": "voice.Death",
-    "pitch": -5,
-    "rate": -25,
-    "amplify": 5,
-    "reverb": [
-      -4.25,
-      1500,
-      0.8
-    ],
-    "echo": [
-      140,
-      140,
-      50,
-      40
-    ]
+    "asetrate": "44100*0.7",
+    "atempo": "0.8",
+    "aecho": "0.1:0.4:2000:0.3"
   },
   {
     "id": 11,
     "icon": "Images.Reverse",
     "name": "voice.Reverse",
-    "pitch": 0,
-    "rate": 0,
-    "reverse": true,
-    "reverb": []
+    "areverse": true
   },
   {
     "id": 12,
     "icon": "Images.GrandCanyon",
     "name": "voice.GrandCanyon",
-    "pitch": 0,
-    "rate": -38,
-    "echo": [
-      400,
-      400,
-      70
-    ],
-    "reverb": [
-      -3.25,
-      2000,
-      0.8
-    ]
+    "aecho": "0.1:0.9:2000:0.3"
   },
   {
     "id": 13,
     "icon": "Images.hexafluorid",
     "name": "voice.hexafluorid",
-    "pitch": -8,
-    "rate": 0,
-    "reverb": []
+    "asetrate": "44100*1.5",
+    "atempo": "0.75"
   },
   {
     "id": 14,
     "icon": "Images.BigRobot",
     "name": "voice.BigRobot",
-    "pitch": -3,
-    "rate": -6,
-    "reverb": [
-      -1.25,
-      800,
-      0.6
-    ],
-    "amplify": 10,
-    "echo": [
-      100,
-      100,
-      40
-    ]
+    "asetrate": "44100*0.8",
+    "atempo": "0.9",
+    "aecho": "0.1:0.5:1000:0.2"
   },
   {
     "id": 15,
     "icon": "Images.Telephone",
     "name": "voice.Telephone",
-    "pitch": 0,
-    "rate": 0,
-    "amplify": 3,
-    "reverb": [],
-    "filter": [
-      1,
-      1300,
-      2
-    ],
-    "eq1": [
-      1300,
-      15,
-      8
-    ]
+    "bandpass": "300:600",
+    "aecho": "0.1:0.2:200:0.2"
   },
   {
     "id": 16,
     "icon": "Images.Underwater",
     "name": "voice.Underwater",
-    "pitch": 0,
-    "rate": 0,
-    "amplify": 3,
-    "filter": [
-      0,
-      400,
-      1.7
-    ],
-    "eq1": [
-      400,
-      15,
-      8
-    ]
+    "bandpass": "200:1500",
+    "aecho": "0.1:0.4:500:0.2"
   },
   {
     "id": 17,
     "icon": "Images.Extraterrestrial",
     "name": "voice.Extraterrestrial",
-    "pitch": 4,
-    "rate": -35,
-    "reverb": []
+    "asetrate": "44100*1.2",
+    "atempo": "1.1",
+    "aecho": "0.1:0.6:1000:0.3"
   },
   {
     "id": 18,
     "icon": "Images.Villain",
     "name": "voice.Villain",
-    "pitch": -5,
-    "rate": -15,
-    "amplify": 10,
-    "filter": [
-      1,
-      1000,
-      2
-    ]
+    "asetrate": "44100*0.75",
+    "atempo": "0.9",
+    "aecho": "0.2:0.5:1500:0.3"
   },
   {
     "id": 19,
     "icon": "Images.Zombie",
     "name": "voice.Zombie",
-    "pitch": -6,
-    "rate": -55,
-    "chorus": [
-      1,
-      0.35,
-      0.4,
-      1,
-      10,
-      10
-    ]
+    "asetrate": "44100*0.6",
+    "atempo": "0.85",
+    "aecho": "0.1:0.4:1000:0.3",
+    "volume": "2.0"
   },
   {
     "id": 20,
     "icon": "Images.Megaphone",
     "name": "voice.Megaphone",
-    "pitch": 0,
-    "rate": 0,
-    "amplify": 15,
-    "eq1": [
-      125,
-      18,
-      -10
-    ],
-    "eq2": [
-      400,
-      18,
-      15
-    ],
-    "eq3": [
-      4000,
-      18,
-      -10
-    ],
-    "distort": [
-      5,
-      -2,
-      4000,
-      4000,
-      4000
-    ]
+    "asetrate": "44100*1.1",
+    "atempo": "1.0",
+    "aecho": "0.05:0.7:500:0.2"
   },
   {
     "id": 21,
     "icon": "Images.Alien",
     "name": "voice.Alien",
-    "pitch": 4,
-    "rate": -10,
-    "chorus": [
-      0.9,
-      0.35,
-      0.5,
-      1,
-      50,
-      100
-    ]
+    "asetrate": "44100*1.3",
+    "atempo": "1.2",
+    "aecho": "0.1:0.5:800:0.3"
   },
   {
     "id": 22,
     "icon": "Images.SmallAlien",
     "name": "voice.SmallAlien",
-    "pitch": 8,
-    "rate": 5,
-    "chorus": [
-      0.9,
-      0.35,
-      0.5,
-      1,
-      50,
-      100
-    ]
+    "asetrate": "44100*1.5",
+    "atempo": "1.1",
+    "aecho": "0.1:0.4:600:0.2"
   },
   {
     "id": 23,
     "icon": "Images.BackChipmunk",
     "name": "voice.BackChipmunk",
-    "pitch": 0,
-    "rate": 0,
-    "chorus": [
-      0.9,
-      -0.2,
-      0.5,
-      1,
-      400,
-      400
-    ]
+    "asetrate": "44100*1.6",
+    "atempo": "1.2",
+    "aecho": "0.05:0.3:300:0.1"
   },
   {
     "id": 24,
     "icon": "Images.VoiceInFactory",
     "name": "voice.VoiceInFactory",
-    "pitch": 0,
-    "rate": 0,
-    "amplify": 20,
-    "chorus": [
-      0.3,
-      0.4,
-      0.5,
-      1,
-      10,
-      5
-    ]
+    "asetrate": "44100*0.85",
+    "atempo": "0.95",
+    "aecho": "0.1:0.5:800:0.4"
   },
   {
     "id": 25,
     "icon": "Images.StormWind",
     "name": "voice.StormWind",
-    "pitch": 1,
-    "rate": 50,
-    "amplify": 20,
-    "chorus": [
-      0.9,
-      -0.4,
-      0.5,
-      1,
-      2,
-      1
-    ]
+    "asetrate": "44100*1.1",
+    "atempo": "1.0",
+    "aecho": "0.2:0.6:1000:0.3"
   },
   {
     "id": 26,
     "icon": "Images.MotoCycle",
     "name": "voice.MotoCycle",
-    "pitch": -1,
-    "rate": 0,
-    "echo": [
-      100,
-      100,
-      30
-    ],
-    "chorus": [
-      0.9,
-      0.45,
-      0.5,
-      1,
-      100,
-      25
-    ]
+    "asetrate": "44100*0.95",
+    "atempo": "0.9",
+    "aecho": "0.1:0.3:500:0.2"
   },
   {
     "id": 27,
     "icon": "Images.AutoWash",
     "name": "voice.AutoWash",
-    "pitch": 0,
-    "rate": 0,
-    "autowah": [
-      0.5,
-      1.5,
-      0.5,
-      5,
-      5.3,
-      50
-    ]
+    "asetrate": "44100*1.0",
+    "atempo": "1.0",
+    "aecho": "0.1:0.5:600:0.3"
   },
   {
     "id": 28,
     "icon": "Images.VolumeEnvelope",
     "name": "voice.VolumeEnvelope",
-    "pitch": -1,
-    "rate": 0,
-    "echo": [
-      140,
-      140,
-      20
-    ],
-    "phaser": [
-      0.999,
-      -0.999,
-      -0.6,
-      0.2,
-      6,
-      100
-    ]
+    "asetrate": "44100*1.0",
+    "atempo": "1.0",
+    "volume": "0.5:1.0:0.0:0.5"
   },
   {
     "id": 29,
     "icon": "Images.Parody",
     "name": "voice.Parody",
-    "pitch": 0,
-    "rate": 0,
-    "chorus": [
-      0.9,
-      0.35,
-      0.5,
-      1,
-      400,
-      200
-    ]
+    "asetrate": "44100*1.0",
+    "atempo": "1.1",
+    "aecho": "0.1:0.4:700:0.2"
   },
   {
     "id": 30,
     "icon": "Images.BassoSinger",
     "name": "voice.BassoSinger",
-    "pitch": -4,
-    "rate": 0,
-    "eq1": [
-      125,
-      18,
-      15
-    ],
-    "eq2": [
-      400,
-      18,
-      -10
-    ],
-    "eq3": [
-      4000,
-      18,
-      -10
-    ],
-    "reverb": [
-      -2.25,
-      1000,
-      0.7
-    ]
+    "asetrate": "44100*0.8",
+    "atempo": "0.9",
+    "aecho": "0.1:0.5:800:0.3"
   },
   {
     "id": 31,
     "icon": "Images.TenorSinger",
     "name": "voice.TenorSinger",
-    "pitch": 6,
-    "rate": 0,
-    "eq1": [
-      125,
-      18,
-      -10
-    ],
-    "eq2": [
-      400,
-      18,
-      -10
-    ],
-    "eq3": [
-      4000,
-      18,
-      15
-    ],
-    "filter": [
-      1,
-      300,
-      2
-    ],
-    "reverb": [
-      -2.25,
-      1000,
-      0.7
-    ]
+    "asetrate": "44100*1.1",
+    "atempo": "1.1",
+    "aecho": "0.1:0.4:600:0.2"
   },
   {
     "id": 32,
     "icon": "Images.MrPanic",
     "name": "voice.MrPanic",
-    "pitch": 3,
-    "rate": 30,
-    "eq1": [
-      125,
-      18,
-      -10
-    ],
-    "eq2": [
-      400,
-      18,
-      15
-    ],
-    "eq3": [
-      4000,
-      18,
-      -10
-    ],
-    "phaser": [
-      0.999,
-      -0.999,
-      -0.6,
-      0.2,
-      6,
-      100
-    ],
-    "reverb": [
-      -3.25,
-      2000,
-      0.8
-    ]
+    "asetrate": "44100*1.0",
+    "atempo": "0.85",
+    "aecho": "0.1:0.5:1000:0.4"
   },
   {
     "id": 33,
     "icon": "Images.DancingGhost",
     "name": "voice.DancingGhost",
-    "pitch": -5,
-    "rate": 50,
-    "chorus": [
-      0.9,
-      0.25,
-      0.2,
-      1,
-      50,
-      400
-    ],
-    "echo": [
-      140,
-      140,
-      30
-    ],
-    "reverb": [
-      -3.25,
-      2000,
-      0.8
-    ]
+    "asetrate": "44100*1.2",
+    "atempo": "1.1",
+    "aecho": "0.2:0.6:800:0.3"
   }
 ]

@@ -1,61 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@color/white"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:layout_width="match_parent"
-    android:layout_height="?attr/actionBarSize">
-    <ImageView
-        android:id="@+id/iv_back"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:layout_width="@dimen/_35sdp"
-        android:layout_height="@dimen/_35sdp"
-        android:layout_marginVertical="@dimen/_8sdp"
-        android:src="@drawable/ic_arrow_back"
-        android:layout_centerVertical="true"/>
-    <TextView
-        android:textSize="22sp"
-        android:textStyle="bold"
-        android:textColor="@color/black"
-        android:gravity="center"
-        android:id="@+id/tv_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/record_voice"
-        android:maxLines="1"
-        android:layout_centerVertical="true"/>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
     <RelativeLayout
-        android:id="@+id/relay_end"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_alignParentEnd="true">
-        <TextView
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:textColor="@color/white"
-            android:gravity="center"
-            android:layout_gravity="center_vertical"
-            android:id="@+id/iv_done"
-            android:background="@drawable/bg_gradient"
-            android:paddingTop="6dp"
-            android:paddingBottom="6dp"
-            android:visibility="gone"
-            android:layout_width="70dp"
-            android:layout_height="wrap_content"
-            android:foreground="?attr/selectableItemBackgroundBorderless"
-            android:text="@string/done"
-            android:layout_centerVertical="true"
-            android:paddingVertical="6dp"/>
+        android:background="@color/white"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize">
+
         <ImageView
-            android:layout_gravity="center_vertical"
-            android:id="@+id/iv_sort"
+            android:id="@+id/iv_back"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:padding="5dp"
-            android:visibility="visible"
+            android:layout_width="@dimen/_35sdp"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_marginVertical="@dimen/_8sdp"
+            android:src="@mipmap/ic_arrow_back"
+            android:layout_centerVertical="true"/>
+
+        <TextView
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/record_voice"
+            android:maxLines="1"
+            android:layout_centerVertical="true"/>
+
+        <RelativeLayout
+            android:id="@+id/relay_end"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_sort_by"
-            android:layout_centerVertical="true"/>
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true">
+
+            <TextView
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:layout_gravity="center_vertical"
+                android:id="@+id/iv_done"
+                android:background="@drawable/bg_gradient"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"
+                android:visibility="gone"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
+                android:text="@string/done"
+                android:layout_centerVertical="true"
+                android:paddingVertical="6dp"/>
+
+            <ImageView
+                android:layout_gravity="center_vertical"
+                android:id="@+id/iv_sort"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="5dp"
+                android:visibility="invisible"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_sort_by"
+                android:layout_centerVertical="true"/>
+        </RelativeLayout>
     </RelativeLayout>
-</RelativeLayout>
+</layout>
+

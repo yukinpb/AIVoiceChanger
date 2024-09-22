@@ -26,7 +26,7 @@
             android:importantForAccessibility="no"
             android:layout_marginHorizontal="@dimen/_20sdp"
             android:layout_marginVertical="@dimen/_16sdp"
-            android:src="@drawable/ic_menu_drawer"
+            android:src="@mipmap/ic_menu_drawer"
             android:layout_centerVertical="true"
             android:layout_alignParentStart="true"/>
 

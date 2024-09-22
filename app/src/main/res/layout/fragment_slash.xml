@@ -23,7 +23,7 @@
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:importantForAccessibility="no"
-                android:src="@drawable/icon200"/>
+                android:src="@mipmap/icon200"/>
 
             <ImageView
                 android:layout_width="wrap_content"

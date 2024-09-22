@@ -7,6 +7,7 @@
     <string name="channel_description">Voice Changer Notification</string>
     <string name="Please_grant_all_permissions">Please grant all permissions to access additional functionality.</string>
     <string name="Successfully">Successfully</string>
+    <string name="share_audio">Share Audio</string>
     <string name="abc_action_bar_home_description">Navigate home</string>
     <string name="abc_action_bar_up_description">Navigate up</string>
     <string name="abc_action_menu_overflow_description">More options</string>
@@ -90,7 +91,7 @@
     <string name="drunk">Drunk</string>
     <string name="duration">Duration</string>
     <string name="english">English</string>
-    <string name="enter_minimum_words">Please enter Minimum 3 Words</string>
+    <string name="enter_minimum_words">Please enter minimum 5 words</string>
     <string name="enter_text_to_generate_audio">Enter text to generate audio, then add voice effects you like…</string>
     <string name="error_file">Error!</string>
     <string name="example">Example</string>
@@ -227,7 +228,14 @@
     <string name="audio">audio</string>
     <string name="saved">Saved</string>
     <string name="more_tools">More Tools :</string>
-    <string name="ok">ok</string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="ok">OK</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="OK">OK</string>
+    <string name="audio_attr">%1$s | %2$s</string>
+    <string name="text_to_audio">Text to audio</string>
+    <string name="deleted_file_successfully">Deleted file %1$s successfully.</string>
+    <string name="rename_file_successfully">Renamed file %1$s to %2$s successfully</string>
+    <string name="file_already_exists">File %1$s already exists. Do you want to overwrite it?</string>
+    <string name="player">Player</string>
+    <string name="save_audio_failed">Save audio failed.</string>
 </resources>

@@ -10,7 +10,7 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import com.example.voicechanger.base.dialog.LoadingDialog
+import com.example.voicechanger.dialog.LoadingDialog
 
 abstract class BaseActivityNotRequireViewModel<BD : ViewDataBinding> : AppCompatActivity() {
 

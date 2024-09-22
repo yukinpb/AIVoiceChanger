@@ -9,6 +9,9 @@ import androidx.core.view.GravityCompat
 import com.example.voicechanger.R
 import com.example.voicechanger.base.fragment.BaseFragmentNotRequireViewModel
 import com.example.voicechanger.databinding.FragmentHomeBinding
+import com.example.voicechanger.fragment.AudioListFragment.Companion.DIRECTORY
+import com.example.voicechanger.fragment.AudioListFragment.Companion.MY_VOICE_FRAGMENT
+import com.example.voicechanger.fragment.AudioListFragment.Companion.OPEN_FILE_FRAGMENT
 import com.example.voicechanger.navigation.AppNavigation
 import com.example.voicechanger.utils.setOnSafeClickListener
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,6 +28,8 @@ class HomeFragment : BaseFragmentNotRequireViewModel<FragmentHomeBinding>(R.layo
         super.setOnClick()
 
         toolbarAction()
+
+        mainAction()
     }
 
     private fun toolbarAction() {
@@ -63,19 +68,23 @@ class HomeFragment : BaseFragmentNotRequireViewModel<FragmentHomeBinding>(R.layo
 
     private fun mainAction() {
         binding.llRecord.setOnSafeClickListener {
-
+            appNavigation.openHomeToRecordingScreen()
         }
 
         binding.llOpenFile.setOnSafeClickListener {
-
+            appNavigation.openHomeToAudioListScreen(Bundle().apply {
+                putString(DIRECTORY, OPEN_FILE_FRAGMENT)
+            })
         }
 
         binding.llTextAudio.setOnSafeClickListener {
-
+            appNavigation.openHomeToTextToAudioScreen()
         }
 
         binding.llMyVoice.setOnSafeClickListener {
-
+            appNavigation.openHomeToAudioListScreen(Bundle().apply {
+                putString(DIRECTORY, MY_VOICE_FRAGMENT)
+            })
         }
 
         binding.relRingtoneMaker.setOnSafeClickListener {

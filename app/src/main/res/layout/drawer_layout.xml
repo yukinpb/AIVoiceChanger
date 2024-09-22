@@ -12,7 +12,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginEnd="6dp"
-            android:background="@drawable/drawer_bg"
+            android:background="@mipmap/drawer_bg"
             android:importantForAccessibility="no" />
 
         <RelativeLayout
@@ -28,7 +28,7 @@
                 android:layout_height="@dimen/_100sdp"
                 android:layout_centerHorizontal="true"
                 android:importantForAccessibility="no"
-                android:src="@drawable/icon200" />
+                android:src="@mipmap/icon200" />
 
             <TextView
                 android:id="@+id/txt1"

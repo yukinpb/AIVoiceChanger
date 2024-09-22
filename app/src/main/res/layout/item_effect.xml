@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android" >
+    <LinearLayout
+        android:gravity="center"
+        android:orientation="vertical"
+        android:id="@+id/llyMain"
+        android:tag="layout/item_effect_adapter_0"
+        android:padding="@dimen/_2sdp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_80sdp"
+        android:layout_margin="16dp">
+
+        <RelativeLayout
+            android:id="@+id/ll_av"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_item_unselect">
+
+            <ImageView
+                android:id="@+id/iv_avt"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginVertical="@dimen/_5sdp"
+                android:src="@mipmap/ic_alien_unselected"
+                android:layout_above="@+id/tv_effect"/>
+
+            <TextView
+                android:textSize="@dimen/_11ssp"
+                android:textColor="@color/black"
+                android:ellipsize="marquee"
+                android:gravity="center_horizontal"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/tv_effect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/villain"
+                android:singleLine="true"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:marqueeRepeatLimit="marquee_forever"/>
+        </RelativeLayout>
+    </LinearLayout>
+</layout>
+

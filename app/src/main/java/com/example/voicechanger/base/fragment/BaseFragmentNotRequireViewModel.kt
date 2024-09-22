@@ -2,6 +2,7 @@ package com.example.voicechanger.base.fragment
 
 import android.os.Bundle
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -36,11 +37,26 @@ abstract class BaseFragmentNotRequireViewModel<BD : ViewDataBinding>(@LayoutRes 
     private fun onInit(savedInstanceState: Bundle? = null) {
         initView(savedInstanceState)
 
+        setOnBackPress()
+
         setOnClick()
 
         bindingStateView()
 
         bindingAction()
+    }
+
+    private fun setOnBackPress() {
+        val callback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                onBack()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+    }
+
+    open fun onBack() {
+        //do nothing
     }
 
     open fun setOnClick() {

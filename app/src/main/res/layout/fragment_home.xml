@@ -84,12 +84,12 @@
                                     android:orientation="vertical"
                                     android:id="@+id/ll_open_file"
                                     android:layout_width="0dp"
-                                    android:layout_height="@dimen/_90sdp"
+                                    android:layout_height="@dimen/_100sdp"
                                     android:layout_weight="1"
                                     android:layout_marginEnd="10dp">
 
                                     <ImageView
-                                        android:background="@drawable/ic_import_audio_bg"
+                                        android:background="@mipmap/ic_import_audio_bg"
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"/>
 
@@ -134,12 +134,12 @@
                                     android:orientation="vertical"
                                     android:id="@+id/rel_ringtone_maker"
                                     android:layout_width="0dp"
-                                    android:layout_height="@dimen/_90sdp"
+                                    android:layout_height="@dimen/_100sdp"
                                     android:layout_weight="1"
                                     android:layout_marginStart="10dp">
 
                                     <ImageView
-                                        android:background="@drawable/ic_ringtones_maker"
+                                        android:background="@mipmap/ic_ringtones_maker"
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"/>
 
@@ -151,8 +151,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="@dimen/_10sdp"
                                         android:layout_marginBottom="2dp"
-                                        android:layout_marginStart="2dp"
-                                        android:layout_marginEnd="2dp"
+                                        android:layout_marginHorizontal="@dimen/_5sdp"
                                         android:backgroundTint="#fde9f7">
 
                                         <TextView
@@ -198,12 +197,12 @@
                                     android:orientation="vertical"
                                     android:id="@+id/ll_text_audio"
                                     android:layout_width="0dp"
-                                    android:layout_height="@dimen/_90sdp"
+                                    android:layout_height="@dimen/_100sdp"
                                     android:layout_weight="1"
                                     android:layout_marginEnd="10dp">
 
                                     <ImageView
-                                        android:background="@drawable/ic_text_to_audio"
+                                        android:background="@mipmap/ic_text_to_audio"
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"/>
 
@@ -248,12 +247,12 @@
                                     android:orientation="vertical"
                                     android:id="@+id/ll_my_voice"
                                     android:layout_width="0dp"
-                                    android:layout_height="@dimen/_90sdp"
+                                    android:layout_height="@dimen/_100sdp"
                                     android:layout_weight="1"
                                     android:layout_marginStart="10dp">
 
                                     <ImageView
-                                        android:background="@drawable/ic_saved_audio"
+                                        android:background="@mipmap/ic_saved_audio"
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"/>
 
@@ -265,8 +264,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="@dimen/_10sdp"
                                         android:layout_marginBottom="2dp"
-                                        android:layout_marginStart="2dp"
-                                        android:layout_marginEnd="2dp"
+                                        android:layout_marginHorizontal="@dimen/_5sdp"
                                         android:backgroundTint="#fde9f7">
 
                                         <TextView
@@ -333,7 +331,7 @@
                                     <ImageView
                                         android:layout_width="@dimen/_40sdp"
                                         android:layout_height="@dimen/_40sdp"
-                                        android:src="@drawable/ic_trim_audio"
+                                        android:src="@mipmap/ic_trim_audio"
                                         android:layout_alignParentEnd="true"
                                         android:layout_centerVertical="true"
                                         android:layout_marginEnd="@dimen/_10sdp"/>
@@ -344,7 +342,6 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"
                                         android:layout_marginStart="@dimen/_5sdp"
-                                        android:layout_marginTop="@dimen/_10sdp"
                                         android:backgroundTint="#ffeeea">
 
                                         <TextView
@@ -386,7 +383,7 @@
                                     <ImageView
                                         android:layout_width="@dimen/_40sdp"
                                         android:layout_height="@dimen/_40sdp"
-                                        android:src="@drawable/ic_merge_audio"
+                                        android:src="@mipmap/ic_merge_audio"
                                         android:layout_alignParentEnd="true"
                                         android:layout_centerVertical="true"
                                         android:layout_marginEnd="@dimen/_10sdp"/>
@@ -397,7 +394,6 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"
                                         android:layout_marginStart="@dimen/_5sdp"
-                                        android:layout_marginTop="@dimen/_10sdp"
                                         android:backgroundTint="#ffeeea">
 
                                         <TextView
@@ -462,7 +458,6 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"
                                         android:layout_marginStart="@dimen/_5sdp"
-                                        android:layout_marginTop="@dimen/_10sdp"
                                         android:backgroundTint="#ffeeea">
 
                                         <TextView
@@ -504,7 +499,7 @@
                                     <ImageView
                                         android:layout_width="@dimen/_40sdp"
                                         android:layout_height="@dimen/_40sdp"
-                                        android:src="@drawable/ic_app_language"
+                                        android:src="@mipmap/ic_app_language"
                                         android:layout_alignParentEnd="true"
                                         android:layout_centerVertical="true"
                                         android:layout_marginEnd="@dimen/_10sdp"/>
@@ -515,7 +510,6 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"
                                         android:layout_marginStart="@dimen/_5sdp"
-                                        android:layout_marginTop="@dimen/_10sdp"
                                         android:backgroundTint="#ffeeea">
 
                                         <TextView
