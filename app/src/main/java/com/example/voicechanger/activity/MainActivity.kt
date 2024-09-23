@@ -1,10 +1,7 @@
 package com.example.voicechanger.activity
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.voicechanger.R
 import com.example.voicechanger.base.activity.BaseActivityNotRequireViewModel
 import com.example.voicechanger.databinding.ActivityMainBinding

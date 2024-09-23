@@ -238,4 +238,10 @@
     <string name="file_already_exists">File %1$s already exists. Do you want to overwrite it?</string>
     <string name="player">Player</string>
     <string name="save_audio_failed">Save audio failed.</string>
+    <string name="trim">Trim</string>
+    <string name="cut">Cut</string>
+    <string name="end">End</string>
+    <string name="start">Start</string>
+    <string name="ringtone_maker">Ringtone Maker</string>
+    <string name="trim_audio_1">Trim Audio</string>
 </resources>

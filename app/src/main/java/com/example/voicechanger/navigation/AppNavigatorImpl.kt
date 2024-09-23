@@ -66,4 +66,8 @@ class AppNavigatorImpl @Inject constructor() : BaseNavigatorImpl(),
     override fun openAudioListToChangeEffectScreen(bundle: Bundle?) {
         openScreen(R.id.action_audioListFragment_to_changeEffectFragment, bundle)
     }
+
+    override fun openAudioListToEditAudioScreen(bundle: Bundle?) {
+        openScreen(R.id.action_audioListFragment_to_editAudioFragment, bundle)
+    }
 }

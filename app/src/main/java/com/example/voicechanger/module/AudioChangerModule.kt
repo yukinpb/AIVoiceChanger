@@ -1,15 +1,9 @@
 package com.example.voicechanger.module
 
-import android.content.Context
-import android.util.Log
 import com.arthenica.mobileffmpeg.Config
 import com.arthenica.mobileffmpeg.FFmpeg
 import com.example.voicechanger.model.AudioAttrModel
 import com.example.voicechanger.utils.EffectProvider
-import com.example.voicechanger.utils.toDoubleList
-import com.example.voicechanger.utils.toIntList
-import org.json.JSONArray
-import org.json.JSONObject
 
 class AudioChangerModule {
     private val effects : List<AudioAttrModel> = EffectProvider.getEffects()

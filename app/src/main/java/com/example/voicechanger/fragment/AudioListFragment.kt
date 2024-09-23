@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.PopupWindow
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.voicechanger.R
@@ -84,11 +85,32 @@ class AudioListFragment :
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        getVM().loadAudioFiles()
+    }
+
     override fun setOnClick() {
         super.setOnClick()
 
         binding.toolbar.ivSort.setOnSafeClickListener {
             showSortPopup(binding.toolbar.ivSort)
+        }
+
+        binding.fabMergeAudio.setOnSafeClickListener {
+            val selectedItems = audioAdapter.getSelectedItems()
+            getVM().mergeSelectedAudioFiles(selectedItems,
+                onSuccess = {
+                    appNavigation.openAudioListToAudioPlayerScreen(Bundle().apply {
+                        putParcelable(ARG_AUDIO_MODEL, it)
+                        putString(DIRECTORY, MERGE_AUDIO_FRAGMENT)
+                    })
+                },
+                onError = {
+                    requireContext().toast("Merge audio failed!!!")
+                }
+            )
         }
     }
 
@@ -103,7 +125,6 @@ class AudioListFragment :
             onBack()
         }
 
-
         binding.toolbar.tvTitle.text = getString(R.string.change_voice)
 
         binding.toolbar.ivSort.visibility = View.VISIBLE
@@ -111,20 +132,36 @@ class AudioListFragment :
 
     private fun initMainView() {
         audioAdapter = AudioFileAdapter(
+            isShowCheckbox = directory == MERGE_AUDIO_FRAGMENT,
             isShowMenu = directory == MY_VOICE_FRAGMENT,
             onMenuClick = { audioFile ->
                 showBottomSheetDialog(audioFile)
             },
             onItemClicked = {
-                if (directory == MY_VOICE_FRAGMENT) {
-                    appNavigation.openAudioListToAudioPlayerScreen(Bundle().apply {
-                        putParcelable(ARG_AUDIO_MODEL, it)
-                        putString(DIRECTORY, AUDIO_LIST_FRAGMENT)
-                    })
-                } else {
-                    appNavigation.openAudioListToChangeEffectScreen(Bundle().apply {
-                        putString(ARG_AUDIO_PATH, it.path)
-                    })
+                when (directory) {
+                    MY_VOICE_FRAGMENT -> {
+                        appNavigation.openAudioListToAudioPlayerScreen(Bundle().apply {
+                            putParcelable(ARG_AUDIO_MODEL, it)
+                            putString(DIRECTORY, AUDIO_LIST_FRAGMENT)
+                        })
+                    }
+                    OPEN_FILE_FRAGMENT -> {
+                        appNavigation.openAudioListToChangeEffectScreen(Bundle().apply {
+                            putString(ARG_AUDIO_PATH, it.path)
+                        })
+                    }
+                    RINGTONE_MAKER_FRAGMENT -> {
+                        appNavigation.openAudioListToEditAudioScreen(Bundle().apply {
+                            putString(ARG_AUDIO_PATH, it.path)
+                            putString(DIRECTORY, RINGTONE_MAKER_FRAGMENT)
+                        })
+                    }
+                    TRIM_AUDIO_FRAGMENT -> {
+                        appNavigation.openAudioListToEditAudioScreen(Bundle().apply {
+                            putString(ARG_AUDIO_PATH, it.path)
+                            putString(DIRECTORY, TRIM_AUDIO_FRAGMENT)
+                        })
+                    }
                 }
             }
         )
@@ -143,6 +180,8 @@ class AudioListFragment :
                 return true
             }
         })
+
+        binding.fabMergeAudio.isVisible = directory == MERGE_AUDIO_FRAGMENT
     }
 
     private fun filter(query: String) {
@@ -312,5 +351,8 @@ class AudioListFragment :
         const val OPEN_FILE_FRAGMENT = "OPEN_FILE_FRAGMENT"
         const val MY_VOICE_FRAGMENT = "MY_AUDIO_FRAGMENT"
         const val AUDIO_LIST_FRAGMENT = "AUDIO_LIST_FRAGMENT"
+        const val RINGTONE_MAKER_FRAGMENT = "RINGTONE_MAKER_FRAGMENT"
+        const val TRIM_AUDIO_FRAGMENT = "TRIM_AUDIO_FRAGMENT"
+        const val MERGE_AUDIO_FRAGMENT = "MERGE_AUDIO_FRAGMENT"
     }
 }

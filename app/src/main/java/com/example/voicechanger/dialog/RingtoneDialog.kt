@@ -2,9 +2,11 @@ package com.example.voicechanger.dialog
 
 import android.content.ContentValues
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.media.RingtoneManager
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.provider.Settings
@@ -80,7 +82,6 @@ class RingtoneDialog(
         if (!file.exists()) return
 
         val values = ContentValues().apply {
-            put(MediaStore.MediaColumns.DATA, file.absolutePath)
             put(MediaStore.MediaColumns.TITLE, "My Ringtone")
             put(MediaStore.MediaColumns.MIME_TYPE, "audio/mpeg")
             put(MediaStore.Audio.Media.IS_RINGTONE, true)
@@ -89,34 +90,47 @@ class RingtoneDialog(
             put(MediaStore.Audio.Media.IS_MUSIC, false)
         }
 
-        val uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
         val context: Context = requireContext()
-        context.contentResolver.delete(
-            uri,
-            MediaStore.MediaColumns.DATA + "=\"" + file.absolutePath + "\"",
-            null
-        )
-        val newUri = context.contentResolver.insert(uri, values)
 
-        if (Settings.System.canWrite(context)) {
-            try {
-                RingtoneManager.setActualDefaultRingtoneUri(
-                    context,
-                    getRingtoneType(),
-                    newUri
-                )
-                val state = when (state) {
-                    MobileState.STATE_RINGTONE -> "Ringtone"
-                    MobileState.STATE_ALARM -> "Alarm"
-                    MobileState.STATE_NOTIFICATION -> "Notification"
+        val contentUri = MediaStore.Audio.Media.getContentUriForPath(file.absolutePath)
+
+        if (contentUri != null) {
+            context.contentResolver.delete(
+                contentUri,
+                MediaStore.MediaColumns.TITLE + "=?",
+                arrayOf("My Ringtone")
+            )
+
+            val newUri = context.contentResolver.insert(contentUri, values)
+
+            if (newUri != null) {
+                if (Settings.System.canWrite(context)) {
+                    try {
+                        RingtoneManager.setActualDefaultRingtoneUri(
+                            context,
+                            getRingtoneType(),
+                            newUri
+                        )
+                        val stateText = when (state) {
+                            MobileState.STATE_RINGTONE -> "Ringtone"
+                            MobileState.STATE_ALARM -> "Alarm"
+                            MobileState.STATE_NOTIFICATION -> "Notification"
+                        }
+                        context.toast("Set as $stateText successfully")
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                        context.toast("Device does not support this feature")
+                    }
+                } else {
+                    val intent = Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS).apply {
+                        data = Uri.parse("package:${context.packageName}")
+                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    }
+                    context.startActivity(intent)
                 }
-                context.toast("Set as $state successfully")
-            } catch (e: IOException) {
-                e.printStackTrace()
-                context.toast("Device does not support this feature")
+            } else {
+                context.toast("Failed to add ringtone to MediaStore")
             }
-        } else {
-            context.toast("Device does not support this feature")
         }
     }
 

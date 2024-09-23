@@ -101,6 +101,11 @@
             app:destination="@id/audioPlayerFragment"
             app:enterAnim="@android:anim/slide_in_left"
             app:exitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_audioListFragment_to_editAudioFragment"
+            app:destination="@id/editAudioFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/languageFragment"
@@ -113,4 +118,9 @@
             app:enterAnim="@android:anim/slide_in_left"
             app:exitAnim="@android:anim/slide_out_right" />
     </fragment>
+    <fragment
+        android:id="@+id/editAudioFragment"
+        android:name="com.example.voicechanger.fragment.EditAudioFragment"
+        android:label="fragment_edit_audio"
+        tools:layout="@layout/fragment_edit_audio" />
 </navigation>

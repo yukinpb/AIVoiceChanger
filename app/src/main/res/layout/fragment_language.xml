@@ -47,7 +47,6 @@
                     android:id="@+id/txtDone"
                     android:background="@drawable/bg_selected_tab"
                     android:paddingTop="@dimen/_8sdp"
-                    android:paddingBottom="@dimen/_8sdp"
                     android:layout_width="@dimen/_60sdp"
                     android:layout_height="wrap_content"
                     android:text="@string/done"

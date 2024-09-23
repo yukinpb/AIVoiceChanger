@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/layout_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/color_voicelist_bg"
+            android:orientation="vertical">
+
+            <com.masoudss.lib.WaveformSeekBar
+                android:id="@+id/waveformSeekBar"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="15dp"
+                android:layout_marginTop="32dp"
+                app:wave_background_color="@android:color/darker_gray"
+                app:wave_corner_radius="2dp"
+                app:wave_gap="2dp"
+                app:wave_gravity="center"
+                app:wave_max_progress="100"
+                app:wave_min_height="5dp"
+                app:wave_progress="33"
+                app:wave_progress_color="@color/colorPrimary"
+                app:wave_width="5dp" />
+
+            <com.jaygoo.widget.RangeSeekBar
+                android:id="@+id/sb_range_5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginVertical="-7dp"
+                app:rsb_mode="range"
+                app:rsb_progress_color="@color/colorAccent"
+                app:rsb_thumb_drawable="@drawable/thumb_green_alpha"
+                app:rsb_thumb_size="25dp"
+                app:rsb_tick_mark_gravity="center"
+                app:rsb_tick_mark_mode="number"
+                app:rsb_tick_mark_text_margin="20dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:id="@+id/btnTrim"
+                    android:layout_width="0dp"
+                    android:layout_height="?attr/actionBarSize"
+                    android:layout_weight="1"
+                    android:padding="@dimen/_5sdp"
+                    android:layout_marginHorizontal="@dimen/_8sdp"
+                    android:background="@drawable/bg_gradient">
+
+                    <ImageView
+                        android:id="@+id/trim_img"
+                        android:layout_width="@dimen/_35sdp"
+                        android:layout_height="@dimen/_35sdp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:src="@drawable/ic_baseline_content_cut_24" />
+
+                    <TextView
+                        android:id="@+id/tv_trim"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="@string/trim"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_20ssp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/btnCut"
+                    android:layout_width="0dp"
+                    android:layout_height="?attr/actionBarSize"
+                    android:layout_weight="1"
+                    android:layout_marginHorizontal="@dimen/_8sdp"
+                    android:background="@drawable/bg_gradient">
+
+                    <ImageView
+                        android:id="@+id/cut_img"
+                        android:layout_width="@dimen/_35sdp"
+                        android:layout_height="@dimen/_35sdp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:src="@drawable/ic_baseline_content_cut_24" />
+
+                    <TextView
+                        android:id="@+id/tv_cut"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:text="@string/cut"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_20ssp" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_40sdp"
+                android:paddingHorizontal="@dimen/_8sdp"
+                android:gravity="center">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:background="@drawable/bg_edit_text"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/mark_start"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/start"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/_22ssp" />
+
+                    <TextView
+                        android:id="@+id/tvStart"
+                        android:layout_width="match_parent"
+                        android:layout_height="33dp"
+                        android:gravity="center"
+                        android:text="2.00"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_18sdp" />
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:id="@+id/btnPlay"
+                        android:layout_width="72dp"
+                        android:layout_height="72dp"
+                        android:layout_centerInParent="true"
+                        android:src="@mipmap/ic_pause" />
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:background="@drawable/bg_edit_text"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/mark_end"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/end"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/_22ssp" />
+
+                    <TextView
+                        android:id="@+id/tvEnd"
+                        android:layout_width="match_parent"
+                        android:layout_height="33dp"
+                        android:gravity="center"
+                        android:text="2.34"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_18ssp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_set"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="bottom"
+                android:layout_marginBottom="@dimen/_16sdp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="33dp"
+                    android:layout_margin="@dimen/_10sdp"
+                    android:fontFamily="@font/poppins_bold"
+                    android:gravity="center"
+                    android:text="@string/set_as"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_22ssp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="bottom"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textViewSetAs">
+
+                        <TextView
+                            android:id="@+id/ll_set_ringtone"
+                            android:layout_width="match_parent"
+                            android:layout_height="?attr/actionBarSize"
+                            android:layout_marginHorizontal="8dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/bg_edit_text"
+                            android:drawableLeft="@drawable/ic_set_ringtone"
+                            android:gravity="center"
+                            android:paddingLeft="@dimen/_10sdp"
+                            android:text="@string/ringtone"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_18sdp" />
+
+                        <TextView
+                            android:id="@+id/ll_set_alarm"
+                            android:layout_width="match_parent"
+                            android:layout_height="?attr/actionBarSize"
+                            android:layout_marginHorizontal="8dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/bg_edit_text"
+                            android:drawableLeft="@drawable/ic_set_ringtone"
+                            android:gravity="center"
+                            android:paddingLeft="@dimen/_10sdp"
+                            android:singleLine="true"
+                            android:text="@string/alarm"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_18sdp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/ll_set_notification"
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/actionBarSize"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_edit_text"
+                        android:layout_marginHorizontal="8dp"
+                        android:layout_marginTop="@dimen/_16sdp"
+                        android:drawableLeft="@drawable/ic_set_ringtone"
+                        android:gravity="center"
+                        android:paddingLeft="@dimen/_10sdp"
+                        android:singleLine="true"
+                        android:text="@string/notification"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_18sdp" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</layout>
+

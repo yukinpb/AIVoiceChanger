@@ -4,11 +4,13 @@ import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.voicechanger.R
 import com.example.voicechanger.adapter.LanguageAdapter
 import com.example.voicechanger.adapter.LanguageAdapter.Companion.VIEW_TYPE_2
 import com.example.voicechanger.base.fragment.BaseFragmentNotRequireViewModel
 import com.example.voicechanger.databinding.FragmentLanguageBinding
+import com.example.voicechanger.model.LanguageModel
 import com.example.voicechanger.navigation.AppNavigation
 import com.example.voicechanger.pref.AppPreferences
 import com.example.voicechanger.utils.LanguageProvider
@@ -28,6 +30,8 @@ class LanguageFragment : BaseFragmentNotRequireViewModel<FragmentLanguageBinding
     @Inject
     lateinit var appPreferences: AppPreferences
 
+    private lateinit var language: String
+
     @Inject
     lateinit var appNavigation: AppNavigation
     override fun initView(savedInstanceState: Bundle?) {
@@ -45,21 +49,24 @@ class LanguageFragment : BaseFragmentNotRequireViewModel<FragmentLanguageBinding
         }
 
         adapter = LanguageAdapter(languages, VIEW_TYPE_2) {
-            lifecycleScope.launch {
-                appPreferences.setLanguage(it)
-                LocaleHelper.setLocale(requireContext(), it.locale)
-                requireActivity().recreate()
-            }
+            language = it.languageName
         }
+
+        binding.rvLanguage.layoutManager = LinearLayoutManager(context)
+        binding.rvLanguage.adapter = adapter
     }
 
     override fun setOnClick() {
         super.setOnClick()
 
         binding.txtDone.setOnSafeClickListener {
+            LocaleHelper.setLocale(requireContext(), language)
+
             lifecycleScope.launch {
                 appPreferences.setFirstTime(false)
+                appPreferences.setLanguage(language)
             }
+
             appNavigation.openLanguageToHomeScreen()
         }
     }

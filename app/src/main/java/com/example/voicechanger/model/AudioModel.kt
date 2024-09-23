@@ -9,5 +9,6 @@ data class AudioModel(
     var fileName: String,
     var duration: String,
     var dateCreate: Long,
-    var size: String
+    var size: String,
+    var isChecked: Boolean = false
 ) : Parcelable

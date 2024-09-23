@@ -84,4 +84,7 @@ dependencies {
     implementation("com.arthenica:mobile-ffmpeg-full-gpl:4.4.LTS")
     implementation("com.tbuonomo:dotsindicator:5.0")
     implementation("com.airbnb.android:lottie:6.5.2")
+    implementation("com.github.massoudss:waveformSeekBar:5.0.2")
+    implementation("com.github.lincollincol:amplituda:2.2.2")
+    implementation("com.github.Jay-Goo:RangeSeekBar:2.0.4")
 }

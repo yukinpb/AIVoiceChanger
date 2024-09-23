@@ -17,6 +17,7 @@ import com.example.voicechanger.utils.getVoiceRecordDirPath
 import com.example.voicechanger.utils.setOnSafeClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import java.io.File
@@ -37,7 +38,8 @@ class SlashFragment : BaseFragmentNotRequireViewModel<FragmentSlashBinding>(R.la
         val allGranted = permissions.all { it.value }
         if (allGranted) {
             lifecycleScope.launch {
-                if (appPreferences.isFirstTime().firstOrNull() == true) {
+                val isFirstTime = appPreferences.isFirstTime().first() ?: true
+                if (isFirstTime) {
                     appNavigation.openSplashToLanguageScreen()
                 } else {
                     appNavigation.openSplashToHomeScreen()
