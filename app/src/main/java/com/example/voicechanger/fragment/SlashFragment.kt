@@ -17,6 +17,7 @@ import com.example.voicechanger.utils.getVoiceRecordDirPath
 import com.example.voicechanger.utils.setOnSafeClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import java.io.File
 import javax.inject.Inject
@@ -35,7 +36,13 @@ class SlashFragment : BaseFragmentNotRequireViewModel<FragmentSlashBinding>(R.la
     ) { permissions ->
         val allGranted = permissions.all { it.value }
         if (allGranted) {
-            startHomePage()
+            lifecycleScope.launch {
+                if (appPreferences.isFirstTime().firstOrNull() == true) {
+                    appNavigation.openSplashToLanguageScreen()
+                } else {
+                    appNavigation.openSplashToHomeScreen()
+                }
+            }
         } else {
             Toast.makeText(requireContext(), "Please allow the permission", Toast.LENGTH_SHORT).show()
             requestPermissions()
@@ -63,10 +70,6 @@ class SlashFragment : BaseFragmentNotRequireViewModel<FragmentSlashBinding>(R.la
                 }
             }
         }
-    }
-
-    private fun startHomePage() {
-        appNavigation.openSplashToHomeScreen()
     }
 
     private fun requestPermissions() {

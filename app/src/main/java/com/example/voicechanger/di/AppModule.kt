@@ -20,8 +20,8 @@ import javax.inject.Singleton
 object AppModule {
     @Provides
     @Singleton
-    fun provideAudioChanger(@ApplicationContext context: Context): AudioChangerModule {
-        return AudioChangerModule(context)
+    fun provideAudioChanger(): AudioChangerModule {
+        return AudioChangerModule()
     }
 
     @Provides

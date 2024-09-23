@@ -7,21 +7,18 @@ import android.speech.tts.UtteranceProgressListener
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import com.example.voicechanger.base.BaseViewModel
 import com.example.voicechanger.model.LanguageModel
-import com.example.voicechanger.pref.AppPreferences
+import com.example.voicechanger.utils.LanguageProvider
 import com.example.voicechanger.utils.getVoiceRecordDirPath
-import com.example.voicechanger.utils.toast
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import java.io.File
+import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
 class TextToAudioViewModel @Inject constructor(
-    private val application: Application,
-    private val appPreferences: AppPreferences
+    private val application: Application
 ) : BaseViewModel(), TextToSpeech.OnInitListener {
 
     private var tts: TextToSpeech = TextToSpeech(application, this)
@@ -32,20 +29,9 @@ class TextToAudioViewModel @Inject constructor(
     var attempts = 0
     val maxAttempts = 3
 
-    init {
-        viewModelScope.launch {
-            appPreferences.getLanguage().collect { language ->
-                language?.let {
-                    setLanguage(it)
-                    _language.postValue(it)
-                }
-            }
-        }
-    }
-
     override fun onInit(status: Int) {
         if (status == TextToSpeech.SUCCESS) {
-            tts.language = _language.value?.locale
+            tts.language = Locale(LanguageProvider.getLanguages().first().locale)
         }
     }
 
@@ -96,14 +82,7 @@ class TextToAudioViewModel @Inject constructor(
     }
 
     fun setLanguage(language: LanguageModel) {
-        tts.language = language.locale
-        viewModelScope.launch {
-            updateLanguage(language)
-        }
-    }
-
-    private suspend fun updateLanguage(language: LanguageModel) {
-        appPreferences.setLanguage(language)
+        tts.language = Locale(language.locale)
     }
 
     override fun onCleared() {

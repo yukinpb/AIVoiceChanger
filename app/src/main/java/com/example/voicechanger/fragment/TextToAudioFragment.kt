@@ -72,7 +72,7 @@ class TextToAudioFragment :
         getVM().language.observe(this) { language ->
             language?.let {
                 binding.tvCountry.text = language.languageName
-                binding.imgFlag.setImageResource(language.imageId)
+                binding.imgFlag.setImageResource(language.flag)
             }
         }
     }

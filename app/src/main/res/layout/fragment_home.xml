@@ -377,8 +377,7 @@
                                     android:background="@drawable/round_corner_extra_features"
                                     android:layout_width="0dp"
                                     android:layout_height="@dimen/_80sdp"
-                                    android:layout_weight="1"
-                                    android:layout_marginEnd="10dp">
+                                    android:layout_weight="1">
 
                                     <ImageView
                                         android:layout_width="@dimen/_40sdp"
@@ -434,110 +433,6 @@
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent">
-
-                                <RelativeLayout
-                                    android:orientation="vertical"
-                                    android:id="@+id/my_audio"
-                                    android:background="@drawable/round_corner_extra_features"
-                                    android:layout_width="0dp"
-                                    android:layout_height="@dimen/_80sdp"
-                                    android:layout_weight="1"
-                                    android:layout_marginEnd="10dp">
-
-                                    <ImageView
-                                        android:layout_width="@dimen/_40sdp"
-                                        android:layout_height="@dimen/_40sdp"
-                                        android:src="@drawable/ic_import_audio"
-                                        android:layout_alignParentEnd="true"
-                                        android:layout_centerVertical="true"
-                                        android:layout_marginEnd="@dimen/_10sdp"/>
-
-                                    <LinearLayout
-                                        android:gravity="center"
-                                        android:orientation="vertical"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:layout_marginStart="@dimen/_5sdp"
-                                        android:backgroundTint="#ffeeea">
-
-                                        <TextView
-                                            android:textSize="@dimen/_15ssp"
-                                            android:textStyle="bold"
-                                            android:textColor="@color/black"
-                                            android:layout_gravity="center"
-                                            android:paddingLeft="2dp"
-                                            android:paddingRight="2dp"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="wrap_content"
-                                            android:text="@string/txt_my"
-                                            android:singleLine="true"
-                                            android:paddingHorizontal="2dp"/>
-
-                                        <TextView
-                                            android:textSize="@dimen/_14ssp"
-                                            android:textColor="@color/black"
-                                            android:layout_gravity="center"
-                                            android:paddingLeft="2dp"
-                                            android:paddingRight="2dp"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="wrap_content"
-                                            android:text="@string/txt_audios"
-                                            android:singleLine="true"
-                                            android:paddingHorizontal="2dp"/>
-                                    </LinearLayout>
-                                </RelativeLayout>
-
-                                <RelativeLayout
-                                    android:orientation="vertical"
-                                    android:id="@+id/settings"
-                                    android:background="@drawable/round_corner_extra_features"
-                                    android:layout_width="0dp"
-                                    android:layout_height="@dimen/_80sdp"
-                                    android:layout_weight="1"
-                                    android:layout_marginEnd="10dp">
-
-                                    <ImageView
-                                        android:layout_width="@dimen/_40sdp"
-                                        android:layout_height="@dimen/_40sdp"
-                                        android:src="@mipmap/ic_app_language"
-                                        android:layout_alignParentEnd="true"
-                                        android:layout_centerVertical="true"
-                                        android:layout_marginEnd="@dimen/_10sdp"/>
-
-                                    <LinearLayout
-                                        android:gravity="center"
-                                        android:orientation="vertical"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:layout_marginStart="@dimen/_5sdp"
-                                        android:backgroundTint="#ffeeea">
-
-                                        <TextView
-                                            android:textSize="@dimen/_15ssp"
-                                            android:textStyle="bold"
-                                            android:textColor="@color/black"
-                                            android:layout_gravity="center"
-                                            android:paddingLeft="2dp"
-                                            android:paddingRight="2dp"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="wrap_content"
-                                            android:text="@string/language"
-                                            android:singleLine="true"
-                                            android:paddingHorizontal="2dp"/>
-
-                                        <TextView
-                                            android:textSize="@dimen/_14ssp"
-                                            android:textColor="@color/black"
-                                            android:layout_gravity="center"
-                                            android:paddingLeft="2dp"
-                                            android:paddingRight="2dp"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="wrap_content"
-                                            android:text="@string/txt_audios"
-                                            android:singleLine="true"
-                                            android:paddingHorizontal="2dp"/>
-                                    </LinearLayout>
-                                </RelativeLayout>
                             </LinearLayout>
                         </LinearLayout>
                     </LinearLayout>

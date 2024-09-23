@@ -1,9 +1,9 @@
 package com.example.voicechanger.model
 
-import java.util.Locale
-
 data class LanguageModel (
-    val imageId: Int,
+    val flag: Int,
     val languageName: String,
-    val locale: Locale
+    val originName: String,
+    val locale: String,
+    var isCheck: Boolean = false
 )

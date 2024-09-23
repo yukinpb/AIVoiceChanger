@@ -6,13 +6,32 @@ import android.content.Context
 import android.os.Build
 import androidx.core.content.ContextCompat
 import com.example.voicechanger.base.BaseApplication
+import com.example.voicechanger.fragment.LocaleHelper
+import com.example.voicechanger.pref.AppPreferences
 import dagger.hilt.android.HiltAndroidApp
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.runBlocking
+import java.util.Locale
+import javax.inject.Inject
 
 @HiltAndroidApp
 class VoiceChangerApplication : BaseApplication() {
+
+    @Inject
+    lateinit var appPreferences: AppPreferences
     override fun onCreate() {
         super.onCreate()
+        setAppLocale()
         createChannelNotification(this)
+    }
+
+    private fun setAppLocale() {
+        runBlocking {
+            val languageCode = appPreferences.getLanguage().firstOrNull()
+            languageCode?.let {
+                LocaleHelper.setLocale(this@VoiceChangerApplication, languageCode)
+            }
+        }
     }
 
     private fun createChannelNotification(context: Context) {

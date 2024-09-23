@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.voicechanger.R
 import com.example.voicechanger.adapter.LanguageAdapter
+import com.example.voicechanger.adapter.LanguageAdapter.Companion.VIEW_TYPE_1
 import com.example.voicechanger.databinding.LayoutPopupMenuLocateBinding
 import com.example.voicechanger.model.LanguageModel
 import com.example.voicechanger.utils.LanguageProvider
@@ -38,7 +39,7 @@ class LanguagePopup(
         val languages = LanguageProvider.getLanguages()
 
         binding.rvLanguage.layoutManager = LinearLayoutManager(context)
-        binding.rvLanguage.adapter = LanguageAdapter(languages) { language ->
+        binding.rvLanguage.adapter = LanguageAdapter(languages, VIEW_TYPE_1) { language ->
             onLanguageSelected(language)
             dismiss()
         }
