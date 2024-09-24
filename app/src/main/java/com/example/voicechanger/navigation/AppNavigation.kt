@@ -7,6 +7,7 @@ interface AppNavigation : BaseNavigator {
     fun openSplashToHomeScreen(bundle: Bundle? = null)
     fun openSplashToLanguageScreen(bundle: Bundle? = null)
     fun openLanguageToHomeScreen(bundle: Bundle? = null)
+    fun openHomeToLanguageScreen(bundle: Bundle? = null)
     fun openHomeToRecordingScreen(bundle: Bundle? = null)
     fun openRecordingToChangeEffectScreen(bundle: Bundle? = null)
     fun openChangeEffectToPlayerScreen(bundle: Bundle? = null)

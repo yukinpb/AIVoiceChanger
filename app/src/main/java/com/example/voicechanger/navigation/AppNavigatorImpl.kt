@@ -23,6 +23,10 @@ class AppNavigatorImpl @Inject constructor() : BaseNavigatorImpl(),
         openScreen(R.id.action_languageFragment_to_homeFragment, bundle)
     }
 
+    override fun openHomeToLanguageScreen(bundle: Bundle?) {
+        openScreen(R.id.action_homeFragment_to_languageFragment, bundle)
+    }
+
     override fun openHomeToRecordingScreen(bundle: Bundle?) {
         openScreen(R.id.action_homeFragment_to_recordingFragment, bundle)
     }

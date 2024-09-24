@@ -12,12 +12,7 @@ data class LanguageModel (
     companion object {
         val languages = listOf(
             LanguageModel(R.mipmap.ic_english, "English", "(English)", "en"),
-            LanguageModel(R.mipmap.ic_portuguese, "Portuguese", "(Português)", "pt"),
-            LanguageModel(R.mipmap.ic_france, "French", "(Français)", "fr"),
-            LanguageModel(R.mipmap.ic_german, "German", "(Deutsch)", "de"),
-            LanguageModel(R.mipmap.ic_hindi, "Hindi", "(हिंदी)", "hi"),
-            LanguageModel(R.mipmap.ic_china, "Chinese", "(汉语)", "zh"),
-            LanguageModel(R.mipmap.ic_spanish, "Spanish", "(Española)", "es")
+            LanguageModel(R.mipmap.ic_vietnam, "Vietnam", "(Việt Nam)", "vi")
         )
     }
 }

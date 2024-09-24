@@ -39,7 +39,7 @@ class HomeFragment : BaseFragmentNotRequireViewModel<FragmentHomeBinding>(R.layo
 
         binding.layoutContent.llLanguage.setOnSafeClickListener {
             closeDrawer()
-            // TODO: Open language screen
+            appNavigation.openHomeToLanguageScreen()
         }
 
         binding.layoutContent.txtCancel.setOnSafeClickListener {

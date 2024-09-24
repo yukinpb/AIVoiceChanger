@@ -39,27 +39,35 @@ fun Context.getVoiceEffectDirPath(): String {
 }
 
 fun File.getDuration(): String {
-    val retriever = MediaMetadataRetriever()
-    retriever.setDataSource(this.absolutePath)
-    val durationInMillis = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)?.toInt() ?: 0
-    retriever.release()
-    return durationInMillis.toLong().milliSecFormat()
+    return try {
+        val retriever = MediaMetadataRetriever()
+        retriever.setDataSource(this.absolutePath)
+        val durationInMillis = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)?.toInt() ?: 0
+        retriever.release()
+        durationInMillis.toLong().milliSecFormat()
+    } catch (e: Exception) {
+        "00:00:00"
+    }
 }
 
 fun File.getSize(): String {
-    val sizeInBytes = this.length()
-    val sizeInKB = sizeInBytes / 1024.0
+    return try {
+        val sizeInBytes = this.length()
+        val sizeInKB = sizeInBytes / 1024.0
 
-    return when {
-        sizeInKB >= 1048576.0 -> {
-            String.format("%.2f GB", sizeInKB / 1024.0 / 1024.0)
+        when {
+            sizeInKB >= 1048576.0 -> {
+                String.format("%.2f GB", sizeInKB / 1024.0 / 1024.0)
+            }
+            sizeInKB >= 1024.0 -> {
+                String.format("%.2f MB", sizeInKB / 1024.0)
+            }
+            else -> {
+                String.format("%.2f KB", sizeInKB)
+            }
         }
-        sizeInKB >= 1024.0 -> {
-            String.format("%.2f MB", sizeInKB / 1024.0)
-        }
-        else -> {
-            String.format("%.2f KB", sizeInKB)
-        }
+    } catch (e: Exception) {
+        "0 KB"
     }
 }
 

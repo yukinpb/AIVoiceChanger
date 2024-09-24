@@ -34,7 +34,7 @@ class AIVoiceMakerViewModel @Inject constructor(
     private var persons: List<AudioEffectModel> = repository.getAIEffect()
     private var globalPerson: AudioEffectModel? = null
 
-    val outputDir = "${context.getVoiceEffectDirPath()}/ai_tts_${System.currentTimeMillis()}.wav"
+    private val outputDir = "${context.getVoiceEffectDirPath()}/ai_tts_${System.currentTimeMillis()}.wav"
 
     private val _isSuccess = MutableLiveData<Boolean>()
     val isSuccess: LiveData<Boolean> get() = _isSuccess
