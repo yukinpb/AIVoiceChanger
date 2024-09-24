@@ -14,6 +14,7 @@ import com.example.voicechanger.base.fragment.BaseFragment
 import com.example.voicechanger.databinding.FragmentAudioEffectBinding
 import com.example.voicechanger.model.AudioEffectModel
 import com.example.voicechanger.utils.EffectType
+import com.example.voicechanger.viewModel.AIVoiceMakerViewModel
 import com.example.voicechanger.viewModel.AudioEffectViewModel
 import com.example.voicechanger.viewModel.ChangeEffectViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,6 +26,7 @@ class AudioEffectFragment : BaseFragment<FragmentAudioEffectBinding, AudioEffect
     private var itemEffectAdapter: ItemEffectAdapter? = null
 
     private val parentViewModel: ChangeEffectViewModel by activityViewModels()
+    private val parentAIViewModel: AIVoiceMakerViewModel by activityViewModels()
 
     private val receiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -65,10 +67,17 @@ class AudioEffectFragment : BaseFragment<FragmentAudioEffectBinding, AudioEffect
             EffectType.ALL -> {
                 getVM().getAllEffect()
             }
+            EffectType.AI -> {
+                getVM().getAIEffect()
+            }
         }
 
         itemEffectAdapter = ItemEffectAdapter(requireContext()) {
-            parentViewModel.applyEffect(it.id)
+            if (effectType == EffectType.AI) {
+                parentAIViewModel.applyEffect(it.id)
+            } else {
+                parentViewModel.applyEffect(it.id)
+            }
             LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(Intent("select_effect").putExtra("effect_model", it))
         }
         binding.rclEffect.apply {

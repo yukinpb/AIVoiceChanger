@@ -3,21 +3,19 @@ package com.example.voicechanger.fragment
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import androidx.core.view.GravityCompat
 import com.example.voicechanger.R
 import com.example.voicechanger.base.fragment.BaseFragmentNotRequireViewModel
 import com.example.voicechanger.databinding.FragmentHomeBinding
-import com.example.voicechanger.fragment.AudioListFragment.Companion.DIRECTORY
-import com.example.voicechanger.fragment.AudioListFragment.Companion.MERGE_AUDIO_FRAGMENT
-import com.example.voicechanger.fragment.AudioListFragment.Companion.MY_VOICE_FRAGMENT
-import com.example.voicechanger.fragment.AudioListFragment.Companion.OPEN_FILE_FRAGMENT
-import com.example.voicechanger.fragment.AudioListFragment.Companion.RINGTONE_MAKER_FRAGMENT
 import com.example.voicechanger.navigation.AppNavigation
+import com.example.voicechanger.utils.Constants.DIRECTORY
+import com.example.voicechanger.utils.Constants.Fragments.MERGE_AUDIO_FRAGMENT
+import com.example.voicechanger.utils.Constants.Fragments.MY_VOICE_FRAGMENT
+import com.example.voicechanger.utils.Constants.Fragments.OPEN_FILE_FRAGMENT
+import com.example.voicechanger.utils.Constants.Fragments.TRIM_AUDIO_FRAGMENT
 import com.example.voicechanger.utils.setOnSafeClickListener
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -89,15 +87,13 @@ class HomeFragment : BaseFragmentNotRequireViewModel<FragmentHomeBinding>(R.layo
             })
         }
 
-        binding.relRingtoneMaker.setOnSafeClickListener {
-            appNavigation.openHomeToAudioListScreen(Bundle().apply {
-                putString(DIRECTORY, RINGTONE_MAKER_FRAGMENT)
-            })
+        binding.relAiVoiceMaker.setOnSafeClickListener {
+            appNavigation.openHomeToAIVoiceMakerScreen()
         }
 
         binding.trimAudio.setOnSafeClickListener {
             appNavigation.openHomeToAudioListScreen(Bundle().apply {
-                putString(DIRECTORY, RINGTONE_MAKER_FRAGMENT)
+                putString(DIRECTORY, TRIM_AUDIO_FRAGMENT)
             })
         }
 

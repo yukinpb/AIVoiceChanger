@@ -1,11 +1,8 @@
 package com.example.voicechanger.fragment
 
 import android.os.Bundle
-import android.os.Environment
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.ActivityCompat
 import androidx.lifecycle.lifecycleScope
 import com.example.voicechanger.R
 import com.example.voicechanger.VoiceChangerApplication
@@ -14,11 +11,9 @@ import com.example.voicechanger.databinding.FragmentSlashBinding
 import com.example.voicechanger.navigation.AppNavigation
 import com.example.voicechanger.pref.AppPreferences
 import com.example.voicechanger.utils.getVoiceRecordDirPath
-import com.example.voicechanger.utils.setOnSafeClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import java.io.File
 import javax.inject.Inject

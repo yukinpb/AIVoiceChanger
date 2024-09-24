@@ -19,4 +19,6 @@ interface AppNavigation : BaseNavigator {
     fun openAudioListToAudioPlayerScreen(bundle: Bundle? = null)
     fun openAudioListToChangeEffectScreen(bundle: Bundle? = null)
     fun openAudioListToEditAudioScreen(bundle: Bundle? = null)
+    fun openHomeToAIVoiceMakerScreen(bundle: Bundle? = null)
+    fun openAIVoiceMakerToPlayerScreen(bundle: Bundle? = null)
 }

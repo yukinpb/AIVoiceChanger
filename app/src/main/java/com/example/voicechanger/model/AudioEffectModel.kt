@@ -11,5 +11,6 @@ data class AudioEffectModel(
     var iconSelected: Int,
     var iconUnSelected: Int,
     var thumb: Int,
-    var isActive: Boolean
+    var isActive: Boolean,
+    var token: String? = null
 ) : Parcelable

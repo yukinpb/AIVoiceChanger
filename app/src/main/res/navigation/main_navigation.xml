@@ -39,6 +39,11 @@
             app:destination="@id/audioListFragment"
             app:enterAnim="@android:anim/slide_in_left"
             app:exitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_homeFragment_to_AIVoiceMakerFragment"
+            app:destination="@id/AIVoiceMakerFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/recordingFragment"
@@ -123,4 +128,15 @@
         android:name="com.example.voicechanger.fragment.EditAudioFragment"
         android:label="fragment_edit_audio"
         tools:layout="@layout/fragment_edit_audio" />
+    <fragment
+        android:id="@+id/AIVoiceMakerFragment"
+        android:name="com.example.voicechanger.fragment.AIVoiceMakerFragment"
+        android:label="fragment_ai_voice_maker"
+        tools:layout="@layout/fragment_ai_voice_maker" >
+        <action
+            android:id="@+id/action_AIVoiceMakerFragment_to_audioPlayerFragment"
+            app:destination="@id/audioPlayerFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right" />
+    </fragment>
 </navigation>

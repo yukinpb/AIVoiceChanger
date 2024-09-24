@@ -2,7 +2,6 @@ package com.example.voicechanger.fragment
 
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -18,11 +17,17 @@ import com.example.voicechanger.databinding.FragmentAudioListBinding
 import com.example.voicechanger.dialog.ConfirmDialog
 import com.example.voicechanger.dialog.RingtoneDialog
 import com.example.voicechanger.dialog.SaveDialog
-import com.example.voicechanger.fragment.ChangeEffectFragment.Companion.ARG_AUDIO_MODEL
-import com.example.voicechanger.fragment.RecordingFragment.Companion.ARG_AUDIO_PATH
 import com.example.voicechanger.model.AudioModel
 import com.example.voicechanger.navigation.AppNavigation
 import com.example.voicechanger.popup.AudioSortPopup
+import com.example.voicechanger.utils.Constants.ARG_AUDIO_MODEL
+import com.example.voicechanger.utils.Constants.ARG_AUDIO_PATH
+import com.example.voicechanger.utils.Constants.DIRECTORY
+import com.example.voicechanger.utils.Constants.Fragments.AUDIO_LIST_FRAGMENT
+import com.example.voicechanger.utils.Constants.Fragments.MERGE_AUDIO_FRAGMENT
+import com.example.voicechanger.utils.Constants.Fragments.MY_VOICE_FRAGMENT
+import com.example.voicechanger.utils.Constants.Fragments.OPEN_FILE_FRAGMENT
+import com.example.voicechanger.utils.Constants.Fragments.TRIM_AUDIO_FRAGMENT
 import com.example.voicechanger.utils.setOnSafeClickListener
 import com.example.voicechanger.utils.shareFile
 import com.example.voicechanger.utils.toast
@@ -100,6 +105,12 @@ class AudioListFragment :
 
         binding.fabMergeAudio.setOnSafeClickListener {
             val selectedItems = audioAdapter.getSelectedItems()
+
+            if (selectedItems.size < 2) {
+                requireContext().toast("Please select at least 2 audio files to merge")
+                return@setOnSafeClickListener
+            }
+
             getVM().mergeSelectedAudioFiles(selectedItems,
                 onSuccess = {
                     appNavigation.openAudioListToAudioPlayerScreen(Bundle().apply {
@@ -148,12 +159,6 @@ class AudioListFragment :
                     OPEN_FILE_FRAGMENT -> {
                         appNavigation.openAudioListToChangeEffectScreen(Bundle().apply {
                             putString(ARG_AUDIO_PATH, it.path)
-                        })
-                    }
-                    RINGTONE_MAKER_FRAGMENT -> {
-                        appNavigation.openAudioListToEditAudioScreen(Bundle().apply {
-                            putString(ARG_AUDIO_PATH, it.path)
-                            putString(DIRECTORY, RINGTONE_MAKER_FRAGMENT)
                         })
                     }
                     TRIM_AUDIO_FRAGMENT -> {
@@ -344,15 +349,5 @@ class AudioListFragment :
                 }
             }
         ).show(parentFragmentManager, SaveDialog::class.java.simpleName)
-    }
-
-    companion object {
-        const val DIRECTORY = "DIRECTORY"
-        const val OPEN_FILE_FRAGMENT = "OPEN_FILE_FRAGMENT"
-        const val MY_VOICE_FRAGMENT = "MY_AUDIO_FRAGMENT"
-        const val AUDIO_LIST_FRAGMENT = "AUDIO_LIST_FRAGMENT"
-        const val RINGTONE_MAKER_FRAGMENT = "RINGTONE_MAKER_FRAGMENT"
-        const val TRIM_AUDIO_FRAGMENT = "TRIM_AUDIO_FRAGMENT"
-        const val MERGE_AUDIO_FRAGMENT = "MERGE_AUDIO_FRAGMENT"
     }
 }

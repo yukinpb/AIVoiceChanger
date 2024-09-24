@@ -34,4 +34,8 @@ class AudioEffectViewModel @Inject constructor(
     fun getOtherEffect() {
         _audioEffect.postValue(repository.getOtherEffect())
     }
+
+    fun getAIEffect() {
+        _audioEffect.postValue(repository.getAIEffect())
+    }
 }

@@ -16,6 +16,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 layout="@layout/layout_toolbar"/>
+
             <TextView
                 android:textSize="@dimen/_18ssp"
                 android:textStyle="bold"
@@ -23,8 +24,7 @@
                 android:id="@+id/idTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_16sdp"
-                android:layout_marginRight="@dimen/_16sdp"
+                android:layout_marginTop="@dimen/_8sdp"
                 android:text="@string/change_voice_language"
                 android:layout_below="@+id/toolbar"
                 android:layout_marginHorizontal="@dimen/_16sdp"/>

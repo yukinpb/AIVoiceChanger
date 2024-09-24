@@ -81,6 +81,8 @@ dependencies {
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
 
+    implementation(libs.retrofit)
+
     implementation("com.arthenica:mobile-ffmpeg-full-gpl:4.4.LTS")
     implementation("com.tbuonomo:dotsindicator:5.0")
     implementation("com.airbnb.android:lottie:6.5.2")

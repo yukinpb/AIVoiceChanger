@@ -1,6 +1,10 @@
 package com.example.voicechanger.utils
 
 object Constants {
+    const val DEFAULT_TIMEOUT = 30
+    const val DIRECTORY = "DIRECTORY"
+    const val ARG_AUDIO_PATH = "ARG_AUDIO_PATH"
+    const val ARG_AUDIO_MODEL = "ARG_AUDIO_MODEL"
     object Preferences {
         const val PREF_FILE_NAME = "Preferences"
     }
@@ -15,21 +19,25 @@ object Constants {
         const val FOLDER_TEMP = ".temp"
     }
 
-    object VoiceEffects {
-        const val NONE = 0
-        const val RADIO = 1
-        const val CHIPMUNK = 2
-        const val ROBOT = 3
-        const val CAVE = 4
+    object NetworkRequestCode {
+        const val REQUEST_CODE_200 = 200    //normal
+        const val REQUEST_CODE_400 = 400    //parameter error
+        const val REQUEST_CODE_401 = 401    //unauthorized error
+        const val REQUEST_CODE_403 = 403
+        const val REQUEST_CODE_404 = 404    //No data error
     }
 
-    object UI {
-        const val NUMBER_OF_LAYER_VOICE_CIRCLE = 20
+    object ApiComponents {
+        const val BASE_URL = "https://api.fakeyou.com/tts/"
     }
 
-    object RingtoneOptions {
-        const val RINGTONE = "Ringtone"
-        const val ALARM = "Alarm"
-        const val NOTIFICATION = "Notification"
+    object Fragments {
+        const val AI_VOICE_MAKER_FRAGMENT = "AI_VOICE_MAKER_FRAGMENT"
+        const val OPEN_FILE_FRAGMENT = "OPEN_FILE_FRAGMENT"
+        const val MY_VOICE_FRAGMENT = "MY_AUDIO_FRAGMENT"
+        const val AUDIO_LIST_FRAGMENT = "AUDIO_LIST_FRAGMENT"
+        const val TRIM_AUDIO_FRAGMENT = "TRIM_AUDIO_FRAGMENT"
+        const val MERGE_AUDIO_FRAGMENT = "MERGE_AUDIO_FRAGMENT"
+        const val CHANGE_EFFECT_FRAGMENT = "CHANGE_EFFECT_FRAGMENT"
     }
 }

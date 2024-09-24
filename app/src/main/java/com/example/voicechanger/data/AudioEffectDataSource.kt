@@ -428,4 +428,107 @@ class AudioEffectDataSource(
         )
     )
 
+    fun getAIEffect() = listOf(
+        AudioEffectModel(
+            id = 1,
+            name = "Trump",
+            nameOrigin = "Trump",
+            iconSelected = R.mipmap.image1,
+            iconUnSelected = R.mipmap.image1,
+            thumb = 0,
+            isActive = false,
+            token = "TM:4v0ft4j72y2g"
+        ),
+        AudioEffectModel(
+            id = 2,
+            name = "Obama",
+            nameOrigin = "Obama",
+            iconSelected = R.mipmap.image2,
+            iconUnSelected = R.mipmap.image2,
+            thumb = 0,
+            isActive = false,
+            token = "TM:58vtv7x9f32c"
+        ),
+        AudioEffectModel(
+            id = 3,
+            name = "Morgan",
+            nameOrigin = "Morgan",
+            iconSelected = R.mipmap.image3,
+            iconUnSelected = R.mipmap.image3,
+            thumb = 0,
+            isActive = false,
+            token = "TM:xcx5ytjsv8b3"
+        ),
+        AudioEffectModel(
+            id = 4,
+            name = "John",
+            nameOrigin = "John",
+            iconSelected = R.mipmap.image4,
+            iconUnSelected = R.mipmap.image4,
+            thumb = 0,
+            isActive = false,
+            token = "TM:fyqkwgdd09ey"
+        ),
+        AudioEffectModel(
+            id = 5,
+            name = "Brady",
+            nameOrigin = "Brady",
+            iconSelected = R.mipmap.image5,
+            iconUnSelected = R.mipmap.image5,
+            thumb = 0,
+            isActive = false,
+            token = "TM:fnkmhbrznmeh"
+        ),
+        AudioEffectModel(
+            id = 6,
+            name = "A.Tate",
+            nameOrigin = "A.Tate",
+            iconSelected = R.mipmap.image6,
+            iconUnSelected = R.mipmap.image6,
+            thumb = 0,
+            isActive = false,
+            token = "TM:43c7p13p3z5c"
+        ),
+        AudioEffectModel(
+            id = 7,
+            name = "Zendaya",
+            nameOrigin = "Zendaya",
+            iconSelected = R.mipmap.image7,
+            iconUnSelected = R.mipmap.image7,
+            thumb = 0,
+            isActive = false,
+            token = "TM:f5hcw922p29b"
+        ),
+        AudioEffectModel(
+            id = 8,
+            name = "Eminem",
+            nameOrigin = "Eminem",
+            iconSelected = R.mipmap.image8,
+            iconUnSelected = R.mipmap.image8,
+            thumb = 0,
+            isActive = false,
+            token = "TM:pdf9c1anbdjq"
+        ),
+        AudioEffectModel(
+            id = 9,
+            name = "Barbie",
+            nameOrigin = "Barbie",
+            iconSelected = R.mipmap.image1,
+            iconUnSelected = R.mipmap.image1,
+            thumb = 0,
+            isActive = false,
+            token = "TM:1zj2er3hdwhb"
+        ),
+        AudioEffectModel(
+            id = 10,
+            name = "2Pac",
+            nameOrigin = "2Pac",
+            iconSelected = R.mipmap.image1,
+            iconUnSelected = R.mipmap.image1,
+            thumb = 0,
+            isActive = false,
+            token = "TM:jv2j06zg7vh0"
+        )
+    )
+
 }

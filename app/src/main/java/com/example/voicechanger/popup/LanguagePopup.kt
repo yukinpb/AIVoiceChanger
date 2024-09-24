@@ -16,7 +16,6 @@ import com.example.voicechanger.adapter.LanguageAdapter
 import com.example.voicechanger.adapter.LanguageAdapter.Companion.VIEW_TYPE_1
 import com.example.voicechanger.databinding.LayoutPopupMenuLocateBinding
 import com.example.voicechanger.model.LanguageModel
-import com.example.voicechanger.utils.LanguageProvider
 
 class LanguagePopup(
     private val context: Context,
@@ -36,7 +35,7 @@ class LanguagePopup(
     }
 
     private fun setupMenu() {
-        val languages = LanguageProvider.getLanguages()
+        val languages = LanguageModel.languages
 
         binding.rvLanguage.layoutManager = LinearLayoutManager(context)
         binding.rvLanguage.adapter = LanguageAdapter(languages, VIEW_TYPE_1) { language ->

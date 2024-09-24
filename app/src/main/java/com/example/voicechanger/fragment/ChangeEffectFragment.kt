@@ -13,9 +13,11 @@ import com.example.voicechanger.base.fragment.BaseFragment
 import com.example.voicechanger.databinding.FragmentChangeEffectBinding
 import com.example.voicechanger.dialog.ConfirmDialog
 import com.example.voicechanger.dialog.SaveDialog
-import com.example.voicechanger.fragment.AudioListFragment.Companion.DIRECTORY
-import com.example.voicechanger.fragment.RecordingFragment.Companion.ARG_AUDIO_PATH
 import com.example.voicechanger.navigation.AppNavigation
+import com.example.voicechanger.utils.Constants.ARG_AUDIO_MODEL
+import com.example.voicechanger.utils.Constants.ARG_AUDIO_PATH
+import com.example.voicechanger.utils.Constants.DIRECTORY
+import com.example.voicechanger.utils.Constants.Fragments.CHANGE_EFFECT_FRAGMENT
 import com.example.voicechanger.utils.EffectType
 import com.example.voicechanger.utils.milliSecFormat
 import com.example.voicechanger.utils.setOnSafeClickListener
@@ -200,7 +202,7 @@ class ChangeEffectFragment :
                 requireContext().toast(getString(R.string.save_audio_failed))
             },
             onPositive = {
-                onConfirm
+                onConfirm()
             }
         ).show(parentFragmentManager, ConfirmDialog::class.java.simpleName)
     }
@@ -257,11 +259,6 @@ class ChangeEffectFragment :
                 // No action needed
             }
         })
-    }
-
-    companion object {
-        const val ARG_AUDIO_MODEL = "ARG_AUDIO_MODEL"
-        const val CHANGE_EFFECT_FRAGMENT = "CHANGE_EFFECT_FRAGMENT"
     }
 
 }

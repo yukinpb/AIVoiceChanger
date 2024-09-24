@@ -3,10 +3,9 @@ package com.example.voicechanger.module
 import com.arthenica.mobileffmpeg.Config
 import com.arthenica.mobileffmpeg.FFmpeg
 import com.example.voicechanger.model.AudioAttrModel
-import com.example.voicechanger.utils.EffectProvider
 
 class AudioChangerModule {
-    private val effects : List<AudioAttrModel> = EffectProvider.getEffects()
+    private val effects : List<AudioAttrModel> = AudioAttrModel.audioAttr
 
     fun applyEffect(
         effectId: Int,

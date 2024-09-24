@@ -10,6 +10,7 @@ interface AudioEffectRepository {
     fun getPeopleEffect() : List<AudioEffectModel>
     fun getScaryEffect() : List<AudioEffectModel>
     fun getOtherEffect() : List<AudioEffectModel>
+    fun getAIEffect() : List<AudioEffectModel>
 }
 
 class AudioEffectRepositoryImpl @Inject constructor(
@@ -34,5 +35,9 @@ class AudioEffectRepositoryImpl @Inject constructor(
 
     override fun getOtherEffect(): List<AudioEffectModel> {
         return dataSource.getOtherEffect()
+    }
+
+    override fun getAIEffect(): List<AudioEffectModel> {
+        return dataSource.getAIEffect()
     }
 }

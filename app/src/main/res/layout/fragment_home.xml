@@ -132,7 +132,7 @@
 
                                 <RelativeLayout
                                     android:orientation="vertical"
-                                    android:id="@+id/rel_ringtone_maker"
+                                    android:id="@+id/rel_ai_voice_maker"
                                     android:layout_width="0dp"
                                     android:layout_height="@dimen/_100sdp"
                                     android:layout_weight="1"
@@ -163,7 +163,7 @@
                                             android:paddingRight="2dp"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
-                                            android:text="@string/txt_ringtones"
+                                            android:text="@string/ai_voice"
                                             android:singleLine="true"
                                             android:paddingHorizontal="2dp"/>
 

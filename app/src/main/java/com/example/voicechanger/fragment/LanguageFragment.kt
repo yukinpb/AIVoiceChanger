@@ -13,7 +13,6 @@ import com.example.voicechanger.databinding.FragmentLanguageBinding
 import com.example.voicechanger.model.LanguageModel
 import com.example.voicechanger.navigation.AppNavigation
 import com.example.voicechanger.pref.AppPreferences
-import com.example.voicechanger.utils.LanguageProvider
 import com.example.voicechanger.utils.setOnSafeClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.firstOrNull
@@ -25,7 +24,7 @@ import javax.inject.Inject
 class LanguageFragment : BaseFragmentNotRequireViewModel<FragmentLanguageBinding>(R.layout.fragment_language) {
 
     private lateinit var adapter: LanguageAdapter
-    private val languages = LanguageProvider.getLanguages()
+    private val languages = LanguageModel.languages
 
     @Inject
     lateinit var appPreferences: AppPreferences

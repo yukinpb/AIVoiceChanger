@@ -9,7 +9,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.voicechanger.base.BaseViewModel
 import com.example.voicechanger.model.LanguageModel
-import com.example.voicechanger.utils.LanguageProvider
 import com.example.voicechanger.utils.getVoiceRecordDirPath
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.io.File
@@ -31,7 +30,7 @@ class TextToAudioViewModel @Inject constructor(
 
     override fun onInit(status: Int) {
         if (status == TextToSpeech.SUCCESS) {
-            tts.language = Locale(LanguageProvider.getLanguages().first().locale)
+            tts.language = Locale(LanguageModel.languages.first().locale)
         }
     }
 
@@ -55,7 +54,7 @@ class TextToAudioViewModel @Inject constructor(
                 hideLoading()
             }
 
-            override fun onError(utteranceId: String) {
+            override fun onError(utteranceId: String?) {
                 Log.e("TTS", "Error save file: $utteranceId")
                 hideLoading()
                 if (attempts < maxAttempts) {

@@ -12,12 +12,11 @@ import com.example.voicechanger.R
 import com.example.voicechanger.base.fragment.BaseFragmentNotRequireViewModel
 import com.example.voicechanger.databinding.FragmentAudioPlayerBinding
 import com.example.voicechanger.dialog.RingtoneDialog
-import com.example.voicechanger.fragment.AudioListFragment.Companion.AUDIO_LIST_FRAGMENT
-import com.example.voicechanger.fragment.AudioListFragment.Companion.DIRECTORY
-import com.example.voicechanger.fragment.ChangeEffectFragment.Companion.ARG_AUDIO_MODEL
-import com.example.voicechanger.fragment.ChangeEffectFragment.Companion.CHANGE_EFFECT_FRAGMENT
 import com.example.voicechanger.model.AudioModel
 import com.example.voicechanger.navigation.AppNavigation
+import com.example.voicechanger.utils.Constants.ARG_AUDIO_MODEL
+import com.example.voicechanger.utils.Constants.DIRECTORY
+import com.example.voicechanger.utils.Constants.Fragments.AUDIO_LIST_FRAGMENT
 import com.example.voicechanger.utils.setOnSafeClickListener
 import com.example.voicechanger.utils.shareFile
 import dagger.hilt.android.AndroidEntryPoint

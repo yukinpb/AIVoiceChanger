@@ -70,4 +70,12 @@ class AppNavigatorImpl @Inject constructor() : BaseNavigatorImpl(),
     override fun openAudioListToEditAudioScreen(bundle: Bundle?) {
         openScreen(R.id.action_audioListFragment_to_editAudioFragment, bundle)
     }
+
+    override fun openHomeToAIVoiceMakerScreen(bundle: Bundle?) {
+        openScreen(R.id.action_homeFragment_to_AIVoiceMakerFragment, bundle)
+    }
+
+    override fun openAIVoiceMakerToPlayerScreen(bundle: Bundle?) {
+        openScreen(R.id.action_AIVoiceMakerFragment_to_audioPlayerFragment, bundle)
+    }
 }

@@ -10,6 +10,7 @@ import com.example.voicechanger.databinding.FragmentRecordingBinding
 import com.example.voicechanger.dialog.ConfirmDialog
 import com.example.voicechanger.navigation.AppNavigation
 import com.example.voicechanger.service.VoiceRecordingService
+import com.example.voicechanger.utils.Constants.ARG_AUDIO_PATH
 import com.example.voicechanger.utils.setOnSafeClickListener
 import com.example.voicechanger.viewModel.RecordingViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -230,9 +231,5 @@ class RecordingFragment :
 
     private fun stopAnim() {
         binding.recordLottie.visibility = View.GONE
-    }
-
-    companion object {
-        const val ARG_AUDIO_PATH = "ARG_AUDIO_PATH"
     }
 }

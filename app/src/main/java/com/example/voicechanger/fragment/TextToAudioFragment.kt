@@ -6,9 +6,9 @@ import androidx.fragment.app.viewModels
 import com.example.voicechanger.R
 import com.example.voicechanger.base.fragment.BaseFragment
 import com.example.voicechanger.databinding.FragmentTextToAudioBinding
-import com.example.voicechanger.fragment.RecordingFragment.Companion.ARG_AUDIO_PATH
 import com.example.voicechanger.navigation.AppNavigation
 import com.example.voicechanger.popup.LanguagePopup
+import com.example.voicechanger.utils.Constants.ARG_AUDIO_PATH
 import com.example.voicechanger.utils.setOnSafeClickListener
 import com.example.voicechanger.utils.toast
 import com.example.voicechanger.viewModel.TextToAudioViewModel
