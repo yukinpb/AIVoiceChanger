@@ -3,6 +3,8 @@ package com.example.voicechanger.fragment
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import com.example.voicechanger.R
 import com.example.voicechanger.adapter.FragmentPagerAdapter
@@ -54,11 +56,9 @@ class AIVoiceMakerFragment : BaseFragment<FragmentAiVoiceMakerBinding, AIVoiceMa
     }
 
     private fun initMainView() {
-        val audioEffectFragmentList = listOf(
-            AudioEffectFragment.newInstance(EffectType.AI)
-        )
-        val viewpagerAdapter = activity?.let { FragmentPagerAdapter(it, audioEffectFragmentList) }
-        binding.viewPager.adapter = viewpagerAdapter
+        childFragmentManager.commit {
+            replace(R.id.fragment_container_view, AudioEffectFragment.newInstance(EffectType.AI))
+        }
     }
 
     private fun setupTextWatcher() {
@@ -101,6 +101,8 @@ class AIVoiceMakerFragment : BaseFragment<FragmentAiVoiceMakerBinding, AIVoiceMa
                     putParcelable(ARG_AUDIO_MODEL, getVM().getAudioSaved())
                     putString(DIRECTORY, AI_VOICE_MAKER_FRAGMENT)
                 })
+            } else {
+                requireContext().toast("Failed to generate voice")
             }
         }
     }

@@ -40,15 +40,16 @@ class LanguageFragment : BaseFragmentNotRequireViewModel<FragmentLanguageBinding
             val languageName = appPreferences.getLanguage().firstOrNull()
             languageName?.let { name ->
                 languages.forEach { language ->
-                    if (language.languageName == name) {
+                    if (language.locale == name) {
                         language.isCheck = true
                     }
                 }
             }
+            language = languageName ?: "en"
         }
 
         adapter = LanguageAdapter(languages, VIEW_TYPE_2) {
-            language = it.languageName
+            language = it.locale
         }
 
         binding.rvLanguage.layoutManager = LinearLayoutManager(context)

@@ -13,6 +13,7 @@ import com.example.voicechanger.utils.getDuration
 import com.example.voicechanger.utils.getSize
 import com.example.voicechanger.utils.getVoiceEffectDirPath
 import com.example.voicechanger.utils.getVoiceRecordDirPath
+import com.example.voicechanger.utils.milliSecFormat
 import com.example.voicechanger.viewModel.ChangeEffectViewModel.Companion.TAG
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -195,9 +196,9 @@ class EditAudioViewModel @Inject constructor(
 
     fun cutAudio(cutStartTime: String, cutEndTime: String) {
         mediaPlayer?.stop()
-        val tempFilePath1 = "${context.getVoiceRecordDirPath()}/${System.currentTimeMillis()}_temp.wav"
-        val tempFilePath2 = "${context.getVoiceRecordDirPath()}/${System.currentTimeMillis()}_temp.wav"
-        val outputFilePath = "${context.getVoiceRecordDirPath()}/${System.currentTimeMillis()}_temp.wav"
+        val tempFilePath1 = "${context.getVoiceRecordDirPath()}/${System.currentTimeMillis()}_1_temp.wav"
+        val tempFilePath2 = "${context.getVoiceRecordDirPath()}/${System.currentTimeMillis()}_2_temp.wav"
+        val outputFilePath = "${context.getVoiceRecordDirPath()}/${System.currentTimeMillis()}_end_temp.wav"
 
         val command1 = arrayOf(
             "-i",

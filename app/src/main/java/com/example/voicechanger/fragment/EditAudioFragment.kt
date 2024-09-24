@@ -1,6 +1,7 @@
 package com.example.voicechanger.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import com.example.voicechanger.R
@@ -229,13 +230,18 @@ class EditAudioFragment : BaseFragment<FragmentEditAudioBinding, EditAudioViewMo
         binding.sbRange5.setValue(0f, duration)
 
         binding.btnCut.isEnabled = false
+        binding.btnCut.alpha = if (binding.btnCut.isEnabled) 1.0f else 0.5f
 
         binding.sbRange5.setOnRangeChangedListener(object : OnRangeChangedListener {
             override fun onRangeChanged(rangeSeekBar: RangeSeekBar, leftValue: Float, rightValue: Float, isFromUser: Boolean) {
-                binding.btnCut.isEnabled = leftValue != 0f || rightValue != duration
 
                 startTime = (leftValue / binding.waveformSeekBar.maxProgress) * duration
                 endTime = (rightValue / binding.waveformSeekBar.maxProgress) * duration
+
+                binding.btnCut.isEnabled = startTime.toLong().milliSecFormat() != 0L.milliSecFormat() || endTime.toLong().milliSecFormat() != duration.toLong().milliSecFormat()
+
+                Log.d("hainv", "onRangeChanged: ${binding.btnCut.isEnabled}")
+                binding.btnCut.alpha = if (binding.btnCut.isEnabled) 1.0f else 0.5f
 
                 binding.waveformSeekBar.marker = hashMapOf(
                     leftValue to startTime.toLong().milliSecFormat(),

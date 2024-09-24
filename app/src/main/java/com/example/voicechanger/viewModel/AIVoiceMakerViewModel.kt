@@ -1,9 +1,14 @@
 package com.example.voicechanger.viewModel
 
+import android.app.DownloadManager
 import android.content.Context
+import android.net.Uri
+import android.os.Environment
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.arthenica.mobileffmpeg.FFmpeg
 import com.example.voicechanger.base.BaseViewModel
 import com.example.voicechanger.model.AudioEffectModel
 import com.example.voicechanger.model.AudioModel
@@ -34,13 +39,14 @@ class AIVoiceMakerViewModel @Inject constructor(
     private var persons: List<AudioEffectModel> = repository.getAIEffect()
     private var globalPerson: AudioEffectModel? = null
 
-    private val outputDir = "${context.getVoiceEffectDirPath()}/ai_tts_${System.currentTimeMillis()}.wav"
+    private val outputDir =
+        "${context.getVoiceEffectDirPath()}/ai_tts_${System.currentTimeMillis()}.wav"
 
     private val _isSuccess = MutableLiveData<Boolean>()
     val isSuccess: LiveData<Boolean> get() = _isSuccess
 
-    fun applyEffect(index: Int) {
-        globalPerson = persons[index]
+    fun applyEffect(id: Int) {
+        globalPerson = persons.find { it.id == id }
     }
 
     fun fetchVoice(controllerText: String) {
@@ -57,10 +63,10 @@ class AIVoiceMakerViewModel @Inject constructor(
 
             try {
                 val voiceUrl = postVoice(tokenModel)
+                Log.d("hainv", "fetchVoice() called : $voiceUrl")
                 downloadAndSaveVoice(voiceUrl)
             } catch (error: Exception) {
-                println("Error: $error")
-            } finally {
+                hideLoading()
                 _isSuccess.value = false
             }
         }
@@ -72,7 +78,7 @@ class AIVoiceMakerViewModel @Inject constructor(
         val token = response.inferenceJobToken ?: throw Exception("Invalid response token")
 
         while (true) {
-            delay(200)
+            delay(500)
             val voiceResponse = apiInterface.getVoice(token)
             if (voiceResponse.state.status == "complete_success") {
                 val path = voiceResponse.state.maybePublicBucketWavAudioPath
@@ -85,30 +91,20 @@ class AIVoiceMakerViewModel @Inject constructor(
     private fun downloadAndSaveVoice(voiceUrl: String) {
         viewModelScope.launch {
             try {
-                val url = URL(voiceUrl)
-                val connection: HttpURLConnection = url.openConnection() as HttpURLConnection
-                connection.requestMethod = "GET"
-                connection.doOutput = true
-                connection.connect()
+                val downloadManager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+                val uri = Uri.parse(voiceUrl)
+                val request = DownloadManager.Request(uri)
+                    .setTitle("Downloading Voice")
+                    .setDescription("Downloading voice file using DownloadManager")
+                    .setDestinationUri(Uri.fromFile(File(outputDir)))
+                    .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
 
-                val file = File(outputDir)
-                val inputStream: InputStream = connection.inputStream
-                val outputStream = FileOutputStream(file)
-
-                val buffer = ByteArray(1024)
-                var len: Int
-                while (inputStream.read(buffer).also { len = it } != -1) {
-                    outputStream.write(buffer, 0, len)
-                }
-
-                outputStream.close()
-                inputStream.close()
+                downloadManager.enqueue(request)
+                hideLoading()
                 _isSuccess.postValue(true)
-                hideLoading()
             } catch (e: Exception) {
-                e.printStackTrace()
-                _isSuccess.postValue(false)
                 hideLoading()
+                _isSuccess.postValue(false)
             }
         }
     }

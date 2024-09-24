@@ -26,7 +26,7 @@ class AudioEffectFragment : BaseFragment<FragmentAudioEffectBinding, AudioEffect
     private var itemEffectAdapter: ItemEffectAdapter? = null
 
     private val parentViewModel: ChangeEffectViewModel by activityViewModels()
-    private val parentAIViewModel: AIVoiceMakerViewModel by activityViewModels()
+    private val parentAIViewModel: AIVoiceMakerViewModel by viewModels({ requireParentFragment() })
 
     private val receiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
