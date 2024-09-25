@@ -47,6 +47,13 @@ class ChangeEffectViewModel @Inject constructor(
     private val _maxDuration = MutableLiveData(0)
     val maxDuration: LiveData<Int> = _maxDuration
 
+    private val _playbackSpeed = MutableLiveData(1.0f)
+    val playbackSpeed: LiveData<Float> = _playbackSpeed
+
+    private val playbackSpeeds = listOf(0.5f, 1.0f, 1.5f, 2.0f)
+
+    private var hasPlayerEnd = false
+
     private var currentFileNamePlay = recordFilePath
 
     fun setRecordingPath(path: String) {
@@ -67,6 +74,10 @@ class ChangeEffectViewModel @Inject constructor(
                 setDataSource(currentFileNamePlay)
                 prepare()
                 start()
+                setOnCompletionListener {
+                    _isPlaying.postValue(false)
+                    hasPlayerEnd = true
+                }
             }
             startTimer()
             getMaxDuration()
@@ -90,6 +101,10 @@ class ChangeEffectViewModel @Inject constructor(
 
     fun resumeAudio() {
         if (mediaPlayer?.isPlaying == false) {
+            if (hasPlayerEnd) {
+                mediaPlayer?.seekTo(0)
+                hasPlayerEnd = false
+            }
             mediaPlayer?.start()
             startTimer()
             _isPlaying.postValue(true)
@@ -127,6 +142,20 @@ class ChangeEffectViewModel @Inject constructor(
     fun seekTo(position: Int) {
         mediaPlayer?.seekTo(position)
         _progress.postValue(position / 1000)
+    }
+
+    private fun setPlaybackSpeed(speed: Float) {
+        mediaPlayer?.let {
+            it.playbackParams = it.playbackParams.setSpeed(speed)
+            _playbackSpeed.value = speed
+        }
+    }
+
+    fun changeSpeed() {
+        val currentSpeed = _playbackSpeed.value ?: 1.0f
+        val nextSpeed =
+            playbackSpeeds[(playbackSpeeds.indexOf(currentSpeed) + 1) % playbackSpeeds.size]
+        setPlaybackSpeed(nextSpeed)
     }
 
     private fun startTimer() {

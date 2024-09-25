@@ -39,6 +39,8 @@ android {
     buildFeatures {
         dataBinding = true
     }
+
+    apply("../autodimension.gradle")
 }
 
 dependencies {

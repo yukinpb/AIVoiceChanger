@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
     <LinearLayout
         android:gravity="center_vertical"
         android:layout_gravity="center"
@@ -100,6 +101,20 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="30dp"
                 android:layout_toEndOf="@+id/exo_play"/>
+
+            <TextView
+                android:id="@+id/btn_speed"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_35sdp"
+                android:background="@mipmap/img_outline_speed"
+                tools:text="1.0x"
+                android:gravity="center"
+                android:fontFamily="@font/poppins_regular"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:layout_centerVertical="true"
+                android:textStyle="bold"
+                android:textSize="@dimen/_10ssp"
+                android:layout_alignParentEnd="true" />
         </RelativeLayout>
     </LinearLayout>
 

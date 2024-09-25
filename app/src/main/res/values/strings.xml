@@ -185,4 +185,7 @@
     <string name="select_ai_voice">Select AI Voice</string>
     <string name="ai_voices">AI Voices</string>
     <string name="_03d_200">%03d/200</string>
+    <string name="speed">%.1fX</string>
+    <string name="download">Download</string>
+    <string name="download_message">Do you want to download this file?</string>
 </resources>

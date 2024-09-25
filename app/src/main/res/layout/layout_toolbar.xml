@@ -28,6 +28,17 @@
             android:maxLines="1"
             android:layout_centerVertical="true"/>
 
+        <ImageView
+            android:id="@+id/iv_download"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:layout_width="@dimen/_35sdp"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_marginVertical="@dimen/_8sdp"
+            android:visibility="gone"
+            android:layout_alignParentEnd="true"
+            android:src="@mipmap/ic_download"
+            android:layout_centerVertical="true"/>
+
         <RelativeLayout
             android:id="@+id/relay_end"
             android:layout_width="wrap_content"

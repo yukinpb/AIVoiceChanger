@@ -142,6 +142,10 @@ class ChangeEffectFragment :
         binding.toolbar.ivDone.setOnSafeClickListener {
             showSaveDialog()
         }
+
+        binding.playerView.btnSpeed.setOnSafeClickListener {
+            getVM().changeSpeed()
+        }
     }
 
     override fun bindingStateView() {
@@ -164,6 +168,7 @@ class ChangeEffectFragment :
             if (isPlaying) {
                 binding.playerView.exoPlay.setImageResource(R.mipmap.ic_pause)
             } else {
+                stateAudio = PlayAudioState.STATE_PAUSE
                 binding.playerView.exoPlay.setImageResource(R.mipmap.ic_play)
             }
         }
@@ -171,6 +176,10 @@ class ChangeEffectFragment :
         getVM().maxDuration.observe(this) { maxDuration ->
             binding.playerView.exoDuration.text = maxDuration.toLong().milliSecFormat()
             binding.playerView.seekbar.max = maxDuration
+        }
+
+        getVM().playbackSpeed.observe(this) { speed ->
+            binding.playerView.btnSpeed.text = getString(R.string.speed, speed)
         }
     }
 
