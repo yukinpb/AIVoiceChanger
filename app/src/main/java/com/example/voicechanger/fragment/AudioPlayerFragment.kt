@@ -7,7 +7,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.media3.common.MediaItem
+import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.ui.DefaultTimeBar
 import com.example.voicechanger.R
 import com.example.voicechanger.base.fragment.BaseFragmentNotRequireViewModel
 import com.example.voicechanger.databinding.FragmentAudioPlayerBinding
@@ -68,10 +70,18 @@ class AudioPlayerFragment : BaseFragmentNotRequireViewModel<FragmentAudioPlayerB
             binding.playerView.findViewById<TextView>(R.id.tv_detail).text = getString(R.string.audio_attr, it.duration, it.size)
             val mediaItem = MediaItem.fromUri(Uri.parse(it.path))
             player?.setMediaItem(mediaItem)
-            player?.repeatMode = ExoPlayer.REPEAT_MODE_ALL
             player?.prepare()
             player?.play()
         }
+
+        player?.addListener(object : Player.Listener {
+            override fun onPlaybackStateChanged(playbackState: Int) {
+                if (playbackState == Player.STATE_ENDED) {
+                    binding.playerView.findViewById<ImageView>(R.id.exo_play).visibility = View.VISIBLE
+                    binding.playerView.findViewById<ImageView>(R.id.exo_pause).visibility = View.GONE
+                }
+            }
+        })
     }
 
     override fun setOnClick() {
@@ -140,6 +150,11 @@ class AudioPlayerFragment : BaseFragmentNotRequireViewModel<FragmentAudioPlayerB
     override fun onPause() {
         super.onPause()
         pauseMusicPlayer()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        player?.playWhenReady = true
     }
 
     override fun onDestroy() {

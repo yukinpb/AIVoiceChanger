@@ -2,6 +2,7 @@ package com.example.voicechanger.viewModel
 
 import android.app.DownloadManager
 import android.content.Context
+import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.os.Environment
 import android.util.Log
@@ -20,8 +21,10 @@ import com.example.voicechanger.utils.getSize
 import com.example.voicechanger.utils.getVoiceEffectDirPath
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
@@ -39,11 +42,11 @@ class AIVoiceMakerViewModel @Inject constructor(
     private var persons: List<AudioEffectModel> = repository.getAIEffect()
     private var globalPerson: AudioEffectModel? = null
 
-    private val outputDir =
-        "${context.getVoiceEffectDirPath()}/ai_tts_${System.currentTimeMillis()}.wav"
-
     private val _isSuccess = MutableLiveData<Boolean>()
     val isSuccess: LiveData<Boolean> get() = _isSuccess
+
+    private val _audioModel = MutableLiveData<AudioModel>()
+    val audioModel: LiveData<AudioModel> get() = _audioModel
 
     fun applyEffect(id: Int) {
         globalPerson = persons.find { it.id == id }
@@ -63,11 +66,38 @@ class AIVoiceMakerViewModel @Inject constructor(
 
             try {
                 val voiceUrl = postVoice(tokenModel)
-                Log.d("hainv", "fetchVoice() called : $voiceUrl")
-                downloadAndSaveVoice(voiceUrl)
+                val (duration, size) = getAudioInfo(voiceUrl)
+
+                val audioModel = AudioModel(
+                    path = voiceUrl,
+                    fileName = "GeneratedVoice_${System.currentTimeMillis()}.wav",
+                    duration = duration.toString(),
+                    dateCreate = System.currentTimeMillis(),
+                    size = size.toString()
+                )
+
+                _audioModel.value = audioModel
             } catch (error: Exception) {
                 hideLoading()
                 _isSuccess.value = false
+            } finally {
+                hideLoading()
+            }
+        }
+    }
+
+    private suspend fun getAudioInfo(audioUrl: String): Pair<Long, Long> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val retriever = MediaMetadataRetriever()
+                retriever.setDataSource(audioUrl, HashMap())
+                val duration = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)?.toLong() ?: 0L
+                val size = URL(audioUrl).openConnection().contentLengthLong
+                retriever.release()
+                Pair(duration, size)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Pair(0L, 0L) // Return default values in case of an error
             }
         }
     }
@@ -78,7 +108,7 @@ class AIVoiceMakerViewModel @Inject constructor(
         val token = response.inferenceJobToken ?: throw Exception("Invalid response token")
 
         while (true) {
-            delay(500)
+            delay(200)
             val voiceResponse = apiInterface.getVoice(token)
             if (voiceResponse.state.status == "complete_success") {
                 val path = voiceResponse.state.maybePublicBucketWavAudioPath
@@ -86,33 +116,5 @@ class AIVoiceMakerViewModel @Inject constructor(
                 return "https://storage.googleapis.com/vocodes-public$path"
             }
         }
-    }
-
-    private fun downloadAndSaveVoice(voiceUrl: String) {
-        viewModelScope.launch {
-            try {
-                val downloadManager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-                val uri = Uri.parse(voiceUrl)
-                val request = DownloadManager.Request(uri)
-                    .setTitle("Downloading Voice")
-                    .setDescription("Downloading voice file using DownloadManager")
-                    .setDestinationUri(Uri.fromFile(File(outputDir)))
-                    .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-
-                downloadManager.enqueue(request)
-                hideLoading()
-                _isSuccess.postValue(true)
-            } catch (e: Exception) {
-                hideLoading()
-                _isSuccess.postValue(false)
-            }
-        }
-    }
-
-    fun getAudioSaved(): AudioModel {
-        val file = File(outputDir)
-        val duration = file.getDuration()
-        val size = file.getSize()
-        return AudioModel(outputDir, file.name, duration, file.lastModified(), size)
     }
 }

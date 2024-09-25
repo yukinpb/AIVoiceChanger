@@ -96,14 +96,18 @@ class AIVoiceMakerFragment : BaseFragment<FragmentAiVoiceMakerBinding, AIVoiceMa
         super.bindingStateView()
 
         getVM().isSuccess.observe(viewLifecycleOwner){
-            if (it) {
-                appNavigation.openAIVoiceMakerToPlayerScreen(Bundle().apply {
-                    putParcelable(ARG_AUDIO_MODEL, getVM().getAudioSaved())
-                    putString(DIRECTORY, AI_VOICE_MAKER_FRAGMENT)
-                })
-            } else {
+            if (!it) {
                 requireContext().toast("Failed to generate voice")
+            } else {
+                requireContext().toast("Voice generated successfully")
             }
+        }
+
+        getVM().audioModel.observe(viewLifecycleOwner) {
+            appNavigation.openAIVoiceMakerToPlayerScreen(Bundle().apply {
+                putParcelable(ARG_AUDIO_MODEL, it)
+                putString(DIRECTORY, AI_VOICE_MAKER_FRAGMENT)
+            })
         }
     }
 

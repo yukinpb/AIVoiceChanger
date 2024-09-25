@@ -66,7 +66,6 @@ class ChangeEffectViewModel @Inject constructor(
             mediaPlayer = MediaPlayer().apply {
                 setDataSource(currentFileNamePlay)
                 prepare()
-                isLooping = true
                 start()
             }
             startTimer()
