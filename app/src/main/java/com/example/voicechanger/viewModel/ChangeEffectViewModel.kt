@@ -1,13 +1,12 @@
 package com.example.voicechanger.viewModel
 
 import android.content.Context
-import android.media.MediaPlayer
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.voicechanger.base.BaseViewModel
 import com.example.voicechanger.model.AudioModel
 import com.example.voicechanger.module.BASSMediaPlayer
+import com.example.voicechanger.module.ChangeEffectModule
 import com.example.voicechanger.repository.TypeEffectRepository
 import com.example.voicechanger.utils.getDuration
 import com.example.voicechanger.utils.getSize
@@ -16,6 +15,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.File
 import java.io.IOException
+import java.nio.charset.StandardCharsets
 import java.util.Timer
 import java.util.TimerTask
 import javax.inject.Inject
@@ -23,17 +23,13 @@ import javax.inject.Inject
 @HiltViewModel
 class ChangeEffectViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val audioChanger: BASSMediaPlayer,
+    private val audioChanger: ChangeEffectModule,
     private val typeEffectRepository: TypeEffectRepository
 ) : BaseViewModel() {
-    private var mediaPlayer: MediaPlayer? = null
+    private var mediaPlayer: BASSMediaPlayer? = null
     private var timerTask: TimerTask? = null
 
     private var recordFilePath = ""
-    private var tempOutputFilePath = ""
-    private var finalFilePath = ""
-
-    private val outputDir = context.getVoiceEffectDirPath()
 
     private val _progress = MutableLiveData<Int>()
     val progress: LiveData<Int> = _progress
@@ -47,48 +43,50 @@ class ChangeEffectViewModel @Inject constructor(
     private val _maxDuration = MutableLiveData(0)
     val maxDuration: LiveData<Int> = _maxDuration
 
-    private val _playbackSpeed = MutableLiveData(1.0f)
-    val playbackSpeed: LiveData<Float> = _playbackSpeed
-
-    private val playbackSpeeds = listOf(0.5f, 1.0f, 1.5f, 2.0f)
-
     private var hasPlayerEnd = false
 
-    private var currentFileNamePlay = recordFilePath
+    private var finalFilePath = ""
+
+    fun init() {
+        audioChanger.setAudioPath(recordFilePath)
+        audioChanger.createMediaPlayer {
+            _isPlaying.postValue(false)
+            hasPlayerEnd = true
+        }
+        audioChanger.insertEffect(getVoiceEffect())
+        mediaPlayer = audioChanger.getMediaPlayer()
+        applyEffect(0)
+    }
 
     fun setRecordingPath(path: String) {
         recordFilePath = path
-        currentFileNamePlay = recordFilePath
-        tempOutputFilePath = recordFilePath.replace(Regex("\\.[^.]*$"), "") + "_temp.wav"
     }
 
-    fun setFinalFileName(fileName: String) {
-        finalFilePath = "${outputDir}/${fileName}.wav"
+    private fun getVoiceEffect(): String? {
+        return try {
+            context.assets.open("effects.json").use { inputStream ->
+                val size = inputStream.available()
+                val buffer = ByteArray(size)
+                inputStream.read(buffer)
+                String(buffer, StandardCharsets.UTF_8)
+            }
+        } catch (e: IOException) {
+            e.printStackTrace()
+            null
+        }
     }
 
     fun getTypeEffectList() = typeEffectRepository.getTypeEffectList()
 
     fun playAudio() {
-        try {
-            mediaPlayer = MediaPlayer().apply {
-                setDataSource(currentFileNamePlay)
-                prepare()
-                start()
-                setOnCompletionListener {
-                    _isPlaying.postValue(false)
-                    hasPlayerEnd = true
-                }
-            }
-            startTimer()
-            getMaxDuration()
-            _isPlaying.postValue(true)
-        } catch (e: IOException) {
-            Log.e(TAG, "prepare() failed")
-        }
+        mediaPlayer?.start()
+        startTimer()
+        getMaxDuration()
+        _isPlaying.postValue(true)
     }
 
     private fun getMaxDuration() {
-        val duration = mediaPlayer?.duration
+        val duration = mediaPlayer?.getDuration()
         _maxDuration.postValue(duration)
     }
 
@@ -121,7 +119,6 @@ class ChangeEffectViewModel @Inject constructor(
         timerTask?.cancel()
         timerTask = null
         mediaPlayer?.apply {
-            stop()
             release()
         }
         mediaPlayer = null
@@ -133,9 +130,9 @@ class ChangeEffectViewModel @Inject constructor(
         val isVolumeOn = _isVolumeOn.value ?: true
         _isVolumeOn.postValue(!isVolumeOn)
         if (isVolumeOn) {
-            mediaPlayer?.setVolume(0f, 0f)
+            mediaPlayer?.setVolume(0f)
         } else {
-            mediaPlayer?.setVolume(1f, 1f)
+            mediaPlayer?.setVolume(1f)
         }
     }
 
@@ -144,26 +141,12 @@ class ChangeEffectViewModel @Inject constructor(
         _progress.postValue(position / 1000)
     }
 
-    private fun setPlaybackSpeed(speed: Float) {
-        mediaPlayer?.let {
-            it.playbackParams = it.playbackParams.setSpeed(speed)
-            _playbackSpeed.value = speed
-        }
-    }
-
-    fun changeSpeed() {
-        val currentSpeed = _playbackSpeed.value ?: 1.0f
-        val nextSpeed =
-            playbackSpeeds[(playbackSpeeds.indexOf(currentSpeed) + 1) % playbackSpeeds.size]
-        setPlaybackSpeed(nextSpeed)
-    }
-
     private fun startTimer() {
         val timer = Timer()
         timerTask = object : TimerTask() {
             override fun run() {
                 if (mediaPlayer?.isPlaying == true) {
-                    val currentPosition = mediaPlayer?.currentPosition ?: 0
+                    val currentPosition = mediaPlayer?.getCurrentPosition() ?: 0
                     _progress.postValue(currentPosition)
                 } else {
                     timer.cancel()
@@ -174,75 +157,30 @@ class ChangeEffectViewModel @Inject constructor(
     }
 
     fun applyEffect(effectId: Int) {
-        mediaPlayer?.stop()
-        if (audioChanger.applyEffect(
-                effectId, recordFilePath, tempOutputFilePath,
-                onPrepare = {
-                    showLoading()
-                },
-                onSuccess = {
-                    Log.d(TAG, "Effect applied successfully.")
-                    currentFileNamePlay = tempOutputFilePath
-                    hideLoading()
-                    playAudio()
-                },
-                onCancel = {
-                    hideLoading()
-                    currentFileNamePlay = recordFilePath
-                    playAudio()
-                    Log.i(TAG, "Effect application cancelled.")
-                },
-                onError = {
-                    hideLoading()
-                    currentFileNamePlay = recordFilePath
-                    playAudio()
-                    Log.e(TAG, "Failed to apply effect: $it")
-                },
-            )
-        ) {
-            currentFileNamePlay = tempOutputFilePath
-        } else {
-            currentFileNamePlay = recordFilePath
-            playAudio()
-        }
+        audioChanger.applyEffect(effectId)
     }
 
-    fun saveAudio(showConfirmDialog: (fileName: String, onConfirm: () -> Unit) -> Unit) : Boolean {
-        val tempFile = File(currentFileNamePlay)
+    fun saveAudio(fileName: String, showConfirmDialog: (fileName: String, onConfirm: () -> Unit) -> Unit) : Boolean {
+        var isSaved = false
+        finalFilePath = context.getVoiceEffectDirPath() + "/" + fileName
         val finalFile = File(finalFilePath)
 
-        if (tempFile.exists()) {
-            if (finalFile.exists()) {
-                showConfirmDialog(finalFile.name) {
-                    finalFile.delete()
-                    try {
-                        tempFile.copyTo(finalFile, overwrite = true)
-                        Log.i(TAG, "Processed audio saved to permanent storage.")
-                    } catch (e: Exception) {
-                        Log.e(TAG, "Failed to save audio: ${e.message}")
-                    }
+        if (finalFile.exists()) {
+            showConfirmDialog(finalFile.name) {
+                finalFile.delete()
+                showLoading()
+                audioChanger.saveEffect(finalFile) {
+                    hideLoading()
+                    isSaved = true
                 }
-                return false
-            } else {
-                try {
-                    tempFile.copyTo(finalFile, overwrite = true)
-                    Log.i(TAG, "Processed audio saved to permanent storage.")
-                } catch (e: Exception) {
-                    Log.e(TAG, "Failed to save audio: ${e.message}")
-                }
-                return true
             }
         } else {
-            Log.e(TAG, "Temporary file does not exist.")
-            return false
+            audioChanger.saveEffect(finalFile) {
+                hideLoading()
+                isSaved = true
+            }
         }
-    }
-
-    fun deleteAllTempFiles() {
-        val tempFile = File(tempOutputFilePath)
-        if (tempFile.exists()) {
-            tempFile.delete()
-        }
+        return isSaved
     }
 
     fun getAudioSaved(): AudioModel {
@@ -250,9 +188,5 @@ class ChangeEffectViewModel @Inject constructor(
         val duration = file.getDuration()
         val size = file.getSize()
         return AudioModel(finalFilePath, file.name, duration, file.lastModified(), size)
-    }
-
-    companion object {
-        const val TAG = "hainv"
     }
 }

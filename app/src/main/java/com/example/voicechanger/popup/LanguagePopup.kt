@@ -56,7 +56,7 @@ class LanguagePopup(
 
 class DividerItemDecoration(context: Context) : RecyclerView.ItemDecoration() {
     private val paint: Paint = Paint().apply {
-        color = context.getColor(R.color.white)
+        color = context.getColor(R.color.black)
         strokeWidth = context.resources.getDimension(R.dimen._1sdp)
     }
 

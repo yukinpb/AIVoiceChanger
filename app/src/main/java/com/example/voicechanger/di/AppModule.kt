@@ -4,6 +4,7 @@ import android.content.Context
 import com.example.voicechanger.data.AudioEffectDataSource
 import com.example.voicechanger.data.TypeEffectDataSource
 import com.example.voicechanger.module.BASSMediaPlayer
+import com.example.voicechanger.module.ChangeEffectModule
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,8 +17,8 @@ import javax.inject.Singleton
 object AppModule {
     @Provides
     @Singleton
-    fun provideAudioChanger(): BASSMediaPlayer {
-        return BASSMediaPlayer()
+    fun provideAudioChanger(@ApplicationContext context: Context): ChangeEffectModule {
+        return ChangeEffectModule(context)
     }
 
     @Provides

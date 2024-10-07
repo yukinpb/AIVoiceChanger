@@ -1,12 +1,9 @@
 package com.example.voicechanger.module
 
-import android.app.Activity
 import android.content.Context
 import android.util.Log
 import com.example.voicechanger.model.AudioAttrModel
-import com.example.voicechanger.utils.getVoiceEffectDirPath
 import com.example.voicechanger.utils.toast
-import com.un4seen.bass.BASS
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -16,31 +13,29 @@ import java.io.File
 class ChangeEffectModule(
     private val context: Context
 ) {
-    private var isInit = false
-    private var nameVoiceChange: String = ""
-    var modelEffects = ArrayList<AudioAttrModel>()
-    private var fileOutputDirectory: File? = null
-    var audioPath: String = ""
-    var indexPLaying: Int? = null
+    private var modelEffects = ArrayList<AudioAttrModel>()
+    private var audioPath: String = ""
+    private var indexPLaying: Int? = null
     private var mediaPlayer: BASSMediaPlayer? = null
 
-    init {
-        onInitAudioDevice()
+    fun setAudioPath(audioPath: String) {
+        this.audioPath = audioPath
     }
 
-    fun getIndexPLaying(): Int? {
-        return indexPLaying
+    fun insertEffect(effects: String?) {
+        effects?.let {
+            val parsedEffects = ParsingJsonObjects.jsonToObjectEffects(it)
+            parsedEffects?.let { effects ->
+                modelEffects.addAll(effects)
+            }
+        }
     }
 
-    fun insertEffect(str: String) {
-        modelEffects.add(ParsingJsonObjects.jsonToObjectEffects(str)!!)
+    fun saveEffect(finalFile: File, onSuccess: () -> Unit) {
+        saveEffect(modelEffects[indexPLaying!!], finalFile, onSuccess)
     }
 
-    fun saveEffect(i: Int, str: String, onSuccess: () -> Unit) {
-        saveEffect(modelEffects[i], str, onSuccess)
-    }
-
-    fun createMediaPlayer() {
+    fun createMediaPlayer(onMediaCompleted: () -> Unit) {
         if (audioPath.isNotEmpty()) {
             mediaPlayer = BASSMediaPlayer(audioPath)
             mediaPlayer?.prepare()
@@ -50,6 +45,7 @@ class ChangeEffectModule(
                 override fun onMediaCompleteListener() {
                     modelEffects[indexPLaying!!].isPlaying = false
                     indexPLaying = null
+                    onMediaCompleted()
                 }
             })
         } else {
@@ -57,6 +53,9 @@ class ChangeEffectModule(
         }
     }
 
+    fun getMediaPlayer(): BASSMediaPlayer? {
+        return mediaPlayer
+    }
 
     fun applyEffect(i: Int) {
         Log.d(TAG, "audioPath: $audioPath")
@@ -106,70 +105,37 @@ class ChangeEffectModule(
         }
     }
 
-    private fun onInitAudioDevice() {
-        if (isInit) {
-            return
-        }
-        isInit = true
-        if (!BASS.BASS_Init(-1, 44100, 0)) {
-            Exception("VoiceChangerModule Can't initialize device").printStackTrace()
-            isInit = false
-            return
-        }
-        val str = context.applicationInfo.nativeLibraryDir
-        try {
-            BASS.BASS_PluginLoad("$str/libbass_fx.so", 0)
-            BASS.BASS_PluginLoad("$str/libbassmix.so", 0)
-            BASS.BASS_PluginLoad("$str/libbasswv.so", 0)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
-
-    fun saveEffect(modelEffects: AudioAttrModel, str: String, onSuccess: () -> Unit) {
+    private fun saveEffect(modelEffects: AudioAttrModel, finalFile: File, onSuccess: () -> Unit) {
         if (mediaPlayer != null) {
-            nameVoiceChange = "$str.wav"
-            saveEffect(modelEffects) {
-                val file = File(fileOutputDirectory, str)
-                if (file.exists()) {
-                    context.toast(String.format("Your voice path is %1\$s", file.absolutePath))
-                }
+            val mediaPlayer = BASSMediaPlayer(audioPath)
 
+            CoroutineScope(Dispatchers.Main).launch {
+                withContext(Dispatchers.IO) {
+                    if (mediaPlayer.initSolveToMedia()) {
+                        mediaPlayer.setReverse(modelEffects.isReverse)
+                        mediaPlayer.setPitch(modelEffects.pitch)
+                        mediaPlayer.setCompressor(modelEffects.compressor)
+                        mediaPlayer.setRate(modelEffects.rate)
+                        mediaPlayer.setEQ1Audio(modelEffects.echo1)
+                        mediaPlayer.setEQ2Audio(modelEffects.eq2)
+                        mediaPlayer.setEQ3Audio(modelEffects.eq3)
+                        mediaPlayer.setPhaser(modelEffects.phaser)
+                        mediaPlayer.setAutoWah(modelEffects.autoWah)
+                        mediaPlayer.setReverb(modelEffects.reverb)
+                        mediaPlayer.setEffectEcho4(modelEffects.echo4)
+                        mediaPlayer.setEcho(modelEffects.echo)
+                        mediaPlayer.setFilterQuad(modelEffects.filter)
+                        mediaPlayer.setFlanger(modelEffects.flanger)
+                        mediaPlayer.setChorus(modelEffects.chorus)
+                        mediaPlayer.setAmplify(modelEffects.amplify)
+                        mediaPlayer.setDistort(modelEffects.distort)
+                        mediaPlayer.setRotate(modelEffects.rotate)
+                        mediaPlayer.saveFile(finalFile.absolutePath)
+                        mediaPlayer.release()
+                    }
+                }
                 onSuccess()
             }
-        }
-    }
-
-    private fun saveEffect(modelEffects: AudioAttrModel, onSuccess: () -> Unit) {
-        val file = File(fileOutputDirectory, nameVoiceChange)
-        val mediaPlayer = BASSMediaPlayer(audioPath)
-
-        CoroutineScope(Dispatchers.Main).launch {
-            withContext(Dispatchers.IO) {
-                if (mediaPlayer.initSolveToMedia()) {
-                    mediaPlayer.setReverse(modelEffects.isReverse)
-                    mediaPlayer.setPitch(modelEffects.pitch)
-                    mediaPlayer.setCompressor(modelEffects.compressor)
-                    mediaPlayer.setRate(modelEffects.rate)
-                    mediaPlayer.setEQ1Audio(modelEffects.echo1)
-                    mediaPlayer.setEQ2Audio(modelEffects.eq2)
-                    mediaPlayer.setEQ3Audio(modelEffects.eq3)
-                    mediaPlayer.setPhaser(modelEffects.phaser)
-                    mediaPlayer.setAutoWah(modelEffects.autoWah)
-                    mediaPlayer.setReverb(modelEffects.reverb)
-                    mediaPlayer.setEffectEcho4(modelEffects.echo4)
-                    mediaPlayer.setEcho(modelEffects.echo)
-                    mediaPlayer.setFilterQuad(modelEffects.filter)
-                    mediaPlayer.setFlanger(modelEffects.flanger)
-                    mediaPlayer.setChorus(modelEffects.chorus)
-                    mediaPlayer.setAmplify(modelEffects.amplify)
-                    mediaPlayer.setDistort(modelEffects.distort)
-                    mediaPlayer.setRotate(modelEffects.rotate)
-                    mediaPlayer.saveFile(file.absolutePath)
-                    mediaPlayer.release()
-                }
-            }
-            onSuccess()
         }
     }
 
@@ -179,14 +145,6 @@ class ChangeEffectModule(
                 it.isPlaying = false
             }
         }
-    }
-
-    private fun getDirectory(activity: Activity): File {
-        val file = File(context.getVoiceEffectDirPath())
-        if (!file.exists()) {
-            file.mkdirs()
-        }
-        return file
     }
 
     companion object {

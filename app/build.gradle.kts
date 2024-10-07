@@ -6,6 +6,13 @@ plugins {
     id("kotlin-parcelize")
 }
 
+apply("../autodimension.gradle")
+
+configurations.all {
+    exclude(group = "xmlpull", module = "xmlpull")
+    exclude(group = "xpp3", module = "xpp3_min")
+}
+
 android {
     namespace = "com.example.voicechanger"
     compileSdk = 34
@@ -39,8 +46,6 @@ android {
     buildFeatures {
         dataBinding = true
     }
-
-    apply("../autodimension.gradle")
 }
 
 dependencies {

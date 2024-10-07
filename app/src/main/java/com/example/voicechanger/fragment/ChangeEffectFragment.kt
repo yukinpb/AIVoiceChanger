@@ -55,7 +55,7 @@ class ChangeEffectFragment :
 
         initMainView()
 
-        playAudio()
+        getVM().init()
 
         setupProgressBar()
     }
@@ -109,7 +109,6 @@ class ChangeEffectFragment :
         super.onBack()
 
         getVM().stopAudio()
-        getVM().deleteAllTempFiles()
         appNavigation.navigateUp()
     }
 
@@ -142,10 +141,6 @@ class ChangeEffectFragment :
         binding.toolbar.ivDone.setOnSafeClickListener {
             showSaveDialog()
         }
-
-        binding.playerView.btnSpeed.setOnSafeClickListener {
-            getVM().changeSpeed()
-        }
     }
 
     override fun bindingStateView() {
@@ -177,10 +172,6 @@ class ChangeEffectFragment :
             binding.playerView.exoDuration.text = maxDuration.toLong().milliSecFormat()
             binding.playerView.seekbar.max = maxDuration
         }
-
-        getVM().playbackSpeed.observe(this) { speed ->
-            binding.playerView.btnSpeed.text = getString(R.string.speed, speed)
-        }
     }
 
     private fun showSaveDialog() {
@@ -193,10 +184,8 @@ class ChangeEffectFragment :
     }
 
     private fun saveAudio(fileName: String) {
-        getVM().setFinalFileName(fileName)
-        if (getVM().saveAudio(showConfirmDialog = ::showFileExistDialog)) {
+        if (getVM().saveAudio(fileName = fileName, showConfirmDialog = ::showFileExistDialog)) {
             getVM().stopAudio()
-            getVM().deleteAllTempFiles()
             goToPlayerScreen()
         }
     }

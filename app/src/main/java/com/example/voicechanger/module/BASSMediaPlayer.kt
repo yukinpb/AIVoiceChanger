@@ -3,6 +3,7 @@ package com.example.voicechanger.module
 import android.util.Log
 import com.example.voicechanger.utils.Constants
 import com.un4seen.bass.BASS
+import com.un4seen.bass.BASS.BASS_ATTRIB_MUSIC_SPEED
 import com.un4seen.bass.BASS.BASS_CTYPE_STREAM_MF
 import com.un4seen.bass.BASS.BASS_FX_DX8_DISTORTION
 import com.un4seen.bass.BASS.BASS_FX_DX8_ECHO
@@ -43,7 +44,7 @@ class BASSMediaPlayer(
 
     private var currentPosition = 0
     private var duration = 0
-    private var isPlaying = false
+    var isPlaying = false
     private var channelPlay = 0
 
     fun prepare(): Boolean {
@@ -66,6 +67,18 @@ class BASSMediaPlayer(
 
     fun setMediaListener(mediaListener: MediaListener) {
         this.mediaListener = mediaListener
+    }
+
+    fun setVolume(volume: Float) {
+        if (channelPlay != 0) {
+            BASS.BASS_ChannelSetAttribute(channelPlay, BASS.BASS_ATTRIB_VOL, volume)
+        }
+    }
+
+    fun setSpeed(speed: Float) {
+        if (channelPlay != 0) {
+            BASS.BASS_ChannelSetAttribute(channelPlay, BASS_ATTRIB_MUSIC_SPEED, speed)
+        }
     }
 
     private fun init() {
@@ -123,6 +136,7 @@ class BASSMediaPlayer(
     fun start() {
         isPlaying = true
         if (channelPlay != 0) {
+            Log.d(TAG, "start: $channelPlay")
             BASS.BASS_ChannelPlay(channelPlay, false)
         }
     }
@@ -150,7 +164,7 @@ class BASSMediaPlayer(
 
     fun seekTo(i: Int) {
         if (!this.isPlaying) {
-            Exception("DBMediaPlayer seekTo:HanetMediaPlayer is not playing").printStackTrace()
+            Exception("MediaPlayer is not playing").printStackTrace()
         } else {
             this.currentPosition = i
             seekToChannel(i)
@@ -158,7 +172,6 @@ class BASSMediaPlayer(
     }
 
     fun saveFile(str: String?) {
-        val i: Int
         var channelGetData: Int
         if (str.isNullOrEmpty() || channelPlay == 0)  {
             return

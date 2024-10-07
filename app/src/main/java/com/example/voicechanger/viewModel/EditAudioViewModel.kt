@@ -13,8 +13,6 @@ import com.example.voicechanger.utils.getDuration
 import com.example.voicechanger.utils.getSize
 import com.example.voicechanger.utils.getVoiceEffectDirPath
 import com.example.voicechanger.utils.getVoiceRecordDirPath
-import com.example.voicechanger.utils.milliSecFormat
-import com.example.voicechanger.viewModel.ChangeEffectViewModel.Companion.TAG
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.File
@@ -268,5 +266,9 @@ class EditAudioViewModel @Inject constructor(
             Log.e(TAG, "Failed to execute FFmpeg command: $e")
             e.printStackTrace()
         }
+    }
+
+    companion object {
+        private const val TAG = "EditAudioViewModel"
     }
 }

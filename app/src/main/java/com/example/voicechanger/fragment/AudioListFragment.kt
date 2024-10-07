@@ -187,6 +187,12 @@ class AudioListFragment :
         })
 
         binding.fabMergeAudio.isVisible = directory == MERGE_AUDIO_FRAGMENT
+        binding.toolbar.tvTitle.text = when (directory) {
+            MY_VOICE_FRAGMENT -> getString(R.string.my_voice)
+            OPEN_FILE_FRAGMENT -> getString(R.string.txt_import)
+            TRIM_AUDIO_FRAGMENT -> getString(R.string.trim_audio)
+            else -> getString(R.string.merge_audio)
+        }
     }
 
     private fun filter(query: String) {
