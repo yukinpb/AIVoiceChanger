@@ -7,7 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.voicechanger.base.BaseViewModel
 import com.example.voicechanger.model.AudioModel
-import com.example.voicechanger.module.AudioChangerModule
+import com.example.voicechanger.module.BASSMediaPlayer
 import com.example.voicechanger.repository.TypeEffectRepository
 import com.example.voicechanger.utils.getDuration
 import com.example.voicechanger.utils.getSize
@@ -23,7 +23,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ChangeEffectViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val audioChanger: AudioChangerModule,
+    private val audioChanger: BASSMediaPlayer,
     private val typeEffectRepository: TypeEffectRepository
 ) : BaseViewModel() {
     private var mediaPlayer: MediaPlayer? = null

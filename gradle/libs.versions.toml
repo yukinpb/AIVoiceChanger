@@ -28,6 +28,7 @@ roomVersion = "2.6.0"
 glide = "4.16.0"
 dataStore = "1.0.0"
 annotations = "15.0"
+navigationSafeArgsGenerator = "2.8.2"
 
 
 [libraries]
@@ -64,6 +65,7 @@ glideCompiler = { module = "com.github.bumptech.glide:ksp", version.ref = "glide
 dataStore = { module = "androidx.datastore:datastore-preferences", version.ref = "dataStore" }
 annotations = { group = "org.jetbrains", name = "annotations", version.ref = "annotations" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+androidx-navigation-safe-args-generator = { group = "androidx.navigation", name = "navigation-safe-args-generator", version.ref = "navigationSafeArgsGenerator" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

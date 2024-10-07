@@ -18,21 +18,6 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-
-        externalNativeBuild {
-            cmake {
-                cppFlags.add("-std=c++11 -frtti -fexceptions")
-            }
-        }
-        ndk {
-            abiFilters.add("armeabi-v7a")
-        }
-    }
-
-    externalNativeBuild {
-        cmake {
-            path = file("CMakeLists.txt")
-        }
     }
 
     buildTypes {
@@ -66,6 +51,7 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.dataStore)
     implementation(libs.annotations)
+    implementation(libs.androidx.navigation.safe.args.generator)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -106,4 +92,5 @@ dependencies {
     implementation("com.github.massoudss:waveformSeekBar:5.0.2")
     implementation("com.github.lincollincol:amplituda:2.2.2")
     implementation("com.github.Jay-Goo:RangeSeekBar:2.0.4")
+    implementation("com.github.RockMyWorld:basslib-android:1.6.3")
 }

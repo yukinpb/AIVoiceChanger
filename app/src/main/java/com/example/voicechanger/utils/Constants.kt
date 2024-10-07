@@ -40,4 +40,14 @@ object Constants {
         const val MERGE_AUDIO_FRAGMENT = "MERGE_AUDIO_FRAGMENT"
         const val CHANGE_EFFECT_FRAGMENT = "CHANGE_EFFECT_FRAGMENT"
     }
+
+    object MediaConstants {
+        const val aacType = "aac"
+        const val flacType = "flac"
+        const val midType = "mid"
+        const val mp3Type = "mp3"
+        const val oggType = "ogg"
+        const val wavType = "wav"
+        const val wmaType = "wma"
+    }
 }
