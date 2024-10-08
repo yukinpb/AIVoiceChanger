@@ -55,7 +55,7 @@ class ChangeEffectFragment :
 
         initMainView()
 
-        getVM().init()
+        playAudio()
 
         setupProgressBar()
     }
@@ -245,7 +245,7 @@ class ChangeEffectFragment :
         binding.playerView.seekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 if (fromUser) {
-                    getVM().seekTo(progress * 1000)
+                    getVM().seekTo(progress)
                 }
             }
 

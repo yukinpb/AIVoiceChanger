@@ -97,5 +97,4 @@ dependencies {
     implementation("com.github.massoudss:waveformSeekBar:5.0.2")
     implementation("com.github.lincollincol:amplituda:2.2.2")
     implementation("com.github.Jay-Goo:RangeSeekBar:2.0.4")
-    implementation("com.github.RockMyWorld:basslib-android:1.6.3")
 }

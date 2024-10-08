@@ -1,5 +1,7 @@
 package com.example.voicechanger.module
 
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import com.example.voicechanger.utils.Constants
 import com.un4seen.bass.BASS
@@ -9,8 +11,8 @@ import com.un4seen.bass.BASS.BASS_FX_DX8_DISTORTION
 import com.un4seen.bass.BASS.BASS_FX_DX8_ECHO
 import com.un4seen.bass.BASS.BASS_FX_DX8_REVERB
 import com.un4seen.bass.BASS.BASS_SAMPLE_OVER_VOL
-import com.un4seen.bass.BASS.BASS_TAG_MUSIC_MESSAGE
 import com.un4seen.bass.BASS_FX
+import com.un4seen.bass.BASS_FX.BASS_ATTRIB_TEMPO_PITCH
 import com.un4seen.bass.BASS_FX.BASS_BFX_BQF_LOWSHELF
 import com.un4seen.bass.BASS_FX.BASS_BFX_BQF_NOTCH
 import com.un4seen.bass.BASS_FX.BASS_FX_BFX_BQF
@@ -18,6 +20,7 @@ import com.un4seen.bass.BASS_FX.BASS_FX_BFX_CHORUS
 import com.un4seen.bass.BASS_FX.BASS_FX_BFX_COMPRESSOR2
 import com.un4seen.bass.BASS_FX.BASS_FX_BFX_ECHO4
 import com.un4seen.bass.BASS_FX.BASS_FX_BFX_ROTATE
+import com.un4seen.bass.BASSenc
 import java.nio.ByteBuffer
 import java.util.Locale
 
@@ -45,7 +48,30 @@ class BASSMediaPlayer(
     private var currentPosition = 0
     private var duration = 0
     var isPlaying = false
+    var isEnded = false
     private var channelPlay = 0
+
+    private val mHandler = Handler(Looper.getMainLooper())
+    private val checkPositionRunnable = object : Runnable {
+        override fun run() {
+            if (!isReverse) {
+                if (getChannelPos() >= getChannelLength()) {
+                    mHandler.removeCallbacks(this)
+                    isEnded = true
+                    mediaListener?.onMediaCompleteListener()
+                    return
+                }
+            } else {
+                if (getChannelPos() <= 0) {
+                    mHandler.removeCallbacks(this)
+                    isEnded = true
+                    mediaListener?.onMediaCompleteListener()
+                    return
+                }
+            }
+            mHandler.postDelayed(this, 50L)
+        }
+    }
 
     fun prepare(): Boolean {
         if (mediaPath.isEmpty()) {
@@ -136,8 +162,19 @@ class BASSMediaPlayer(
     fun start() {
         isPlaying = true
         if (channelPlay != 0) {
-            Log.d(TAG, "start: $channelPlay")
             BASS.BASS_ChannelPlay(channelPlay, false)
+        }
+        mHandler.post(checkPositionRunnable)
+    }
+
+    fun restart() {
+        isPlaying = true
+        if (channelPlay != 0) {
+            BASS.BASS_ChannelPlay(channelPlay, true)
+        }
+        if (isEnded) {
+            isEnded = false
+            mHandler.post(checkPositionRunnable)
         }
     }
 
@@ -145,9 +182,9 @@ class BASSMediaPlayer(
         if (!this.isPlaying) {
             return
         }
-        val i = this.channelPlay
-        if (i != 0) {
-            BASS.BASS_ChannelPause(i)
+        isPlaying = false
+        if (channelPlay != 0) {
+            BASS.BASS_ChannelPause(channelPlay)
         }
     }
 
@@ -155,11 +192,14 @@ class BASSMediaPlayer(
         if (this.channelPlay != 0) {
             this.duration = getChannelLength()
         }
-        return this.duration
+        return this.duration * 1000
     }
 
     fun getCurrentPosition(): Int {
-        return this.currentPosition
+        if (this.channelPlay != 0) {
+            this.currentPosition = getChannelPos()
+        }
+        return this.currentPosition * 1000
     }
 
     fun seekTo(i: Int) {
@@ -173,7 +213,7 @@ class BASSMediaPlayer(
 
     fun saveFile(str: String?) {
         var channelGetData: Int
-        if (str.isNullOrEmpty() || channelPlay == 0)  {
+        if (str.isNullOrEmpty() || channelPlay == 0 || BASSenc.BASS_Encode_Start(channelPlay, str, 262208, null, 0) == 0) {
             return
         }
         try {
@@ -190,6 +230,7 @@ class BASSMediaPlayer(
     }
 
     fun release() {
+        mHandler.removeCallbacks(checkPositionRunnable)
         var i = this.effectReverb
         if (i != 0) {
             BASS.BASS_ChannelRemoveFX(this.channelPlay, i)
@@ -272,7 +313,7 @@ class BASSMediaPlayer(
 
     fun setPitch(pitch: Int) {
         if (channelPlay != 0) {
-            BASS.BASS_ChannelSetAttribute(channelPlay, BASS_TAG_MUSIC_MESSAGE, pitch.toFloat())
+            BASS.BASS_ChannelSetAttribute(channelPlay, BASS_ATTRIB_TEMPO_PITCH, pitch.toFloat())
         }
     }
 
@@ -284,7 +325,7 @@ class BASSMediaPlayer(
 
     fun setReverb(params: List<Float>?) {
         if (channelPlay != 0) {
-            if (params != null) {
+            if (!params.isNullOrEmpty()) {
                 if (effectReverb == 0) {
                     effectReverb = BASS.BASS_ChannelSetFX(channelPlay, BASS_FX_DX8_REVERB, 0)
                 }
@@ -307,7 +348,7 @@ class BASSMediaPlayer(
 
     fun setEcho(params: List<Float>?) {
         if (channelPlay != 0) {
-            if (params != null) {
+            if (!params.isNullOrEmpty()) {
                 if (effectEcho == 0) {
                     effectEcho = BASS.BASS_ChannelSetFX(channelPlay, BASS_FX_DX8_ECHO, 0)
                 }
@@ -354,7 +395,7 @@ class BASSMediaPlayer(
 
     fun setDistort(params: List<Float>?) {
         if (channelPlay != 0) {
-            if (params != null) {
+            if (!params.isNullOrEmpty()) {
                 if (effectDistort == 0) {
                     effectDistort = BASS.BASS_ChannelSetFX(channelPlay, BASS_FX_DX8_DISTORTION, 0)
                 }
@@ -379,7 +420,7 @@ class BASSMediaPlayer(
 
     fun setChorus(params: List<Float>?) {
         if (channelPlay != 0) {
-            if (params != null) {
+            if (!params.isNullOrEmpty()) {
                 if (chorusEffectFx == 0) {
                     chorusEffectFx = BASS.BASS_ChannelSetFX(channelPlay, BASS_FX_BFX_CHORUS, 0)
                 }
@@ -405,7 +446,7 @@ class BASSMediaPlayer(
 
     fun setFilterQuad(params: List<Float>?) {
         if (channelPlay != 0) {
-            if (params != null) {
+            if (!params.isNullOrEmpty()) {
                 if (bigQuedEffects == 0) {
                     bigQuedEffects = BASS.BASS_ChannelSetFX(channelPlay, BASS_FX_BFX_BQF, 0)
                 }
@@ -428,7 +469,7 @@ class BASSMediaPlayer(
 
     fun setEffectEcho4(params: List<Float>?) {
         if (channelPlay != 0) {
-            if (params != null) {
+            if (!params.isNullOrEmpty()) {
                 if (effectEQ4 == 0) {
                     effectEQ4 = BASS.BASS_ChannelSetFX(channelPlay, BASS_FX_BFX_ECHO4, 0)
                 }
@@ -452,7 +493,7 @@ class BASSMediaPlayer(
 
     fun setEQ1Audio(params: List<Float>?) {
         if (channelPlay != 0) {
-            if (params != null) {
+            if (!params.isNullOrEmpty()) {
                 if (effectEQ1 == 0) {
                     effectEQ1 = BASS.BASS_ChannelSetFX(channelPlay, BASS_BFX_BQF_LOWSHELF, 0)
                 }
@@ -475,7 +516,7 @@ class BASSMediaPlayer(
 
     fun setEQ2Audio(params: List<Float>?) {
         if (channelPlay != 0) {
-            if (params != null) {
+            if (!params.isNullOrEmpty()) {
                 if (effectEQ2 == 0) {
                     effectEQ2 = BASS.BASS_ChannelSetFX(channelPlay, BASS_BFX_BQF_LOWSHELF, 0)
                 }
@@ -498,7 +539,7 @@ class BASSMediaPlayer(
 
     fun setEQ3Audio(params: List<Float>?) {
         if (channelPlay != 0) {
-            if (params != null) {
+            if (!params.isNullOrEmpty()) {
                 if (effectEQ3 == 0) {
                     effectEQ3 = BASS.BASS_ChannelSetFX(channelPlay, BASS_BFX_BQF_LOWSHELF, 0)
                 }
@@ -542,7 +583,7 @@ class BASSMediaPlayer(
 
     fun setPhaser(params: List<Float>?) {
         if (channelPlay != 0) {
-            if (params != null) {
+            if (!params.isNullOrEmpty()) {
                 if (effectPhaser == 0) {
                     effectPhaser = BASS.BASS_ChannelSetFX(channelPlay, BASS_FX.BASS_FX_BFX_PHASER, 0)
                 }
@@ -568,7 +609,7 @@ class BASSMediaPlayer(
 
     fun setCompressor(params: List<Float>?) {
         if (channelPlay != 0) {
-            if (params != null) {
+            if (!params.isNullOrEmpty()) {
                 if (compressorEffects == 0) {
                     compressorEffects = BASS.BASS_ChannelSetFX(channelPlay, BASS_FX_BFX_COMPRESSOR2, 0)
                 }
@@ -593,7 +634,7 @@ class BASSMediaPlayer(
 
     fun setAutoWah(params: List<Float>?) {
         if (channelPlay != 0) {
-            if (params != null) {
+            if (!params.isNullOrEmpty()) {
                 if (autoEffectFx == 0) {
                     autoEffectFx = BASS.BASS_ChannelSetFX(channelPlay, BASS_FX.BASS_FX_BFX_PHASER, 0)
                 }
@@ -620,7 +661,7 @@ class BASSMediaPlayer(
     fun setFlanger(params: List<Float>?) {
         val i = this.channelPlay
         if (i != 0) {
-            if (params != null) {
+            if (!params.isNullOrEmpty()) {
                 if (this.effectFlanger == 0) {
                     this.effectFlanger = BASS.BASS_ChannelSetFX(i, BASS_BFX_BQF_NOTCH, 0)
                 }
@@ -658,7 +699,9 @@ class BASSMediaPlayer(
         val i = this.channelPlay
         if (i != 0) {
             val tempoSource = BASS_FX.BASS_FX_TempoGetSource(i)
-            BASS.BASS_ChannelGetAttribute(tempoSource, BASS_FX.BASS_ATTRIB_REVERSE_DIR, 0.0f)
+            val floatValue: BASS.FloatValue = BASS.FloatValue()
+            floatValue.value = 0.0f
+            BASS.BASS_ChannelGetAttribute(tempoSource, BASS_FX.BASS_ATTRIB_REVERSE_DIR, floatValue)
             if (isReverse) {
                 BASS.BASS_ChannelSetAttribute(tempoSource, BASS_FX.BASS_ATTRIB_REVERSE_DIR, -1.0f)
             } else {
@@ -674,14 +717,20 @@ class BASSMediaPlayer(
         }
     }
 
-    private fun getChannelLength(): Int {
-        val channelBytes2Seconds: Double
+    private fun getChannelPos(): Int {
         val i2 = this.channelPlay
         if (i2 == 0) {
             return 0
         }
-        channelBytes2Seconds = BASS.BASS_ChannelBytes2Seconds(i2, BASS.BASS_ChannelGetLength(i2, 0))
-        return channelBytes2Seconds.toInt()
+        return BASS.BASS_ChannelBytes2Seconds(i2, BASS.BASS_ChannelGetPosition(i2, 0)).toInt()
+    }
+
+    private fun getChannelLength(): Int {
+        val i2 = this.channelPlay
+        if (i2 == 0) {
+            return 0
+        }
+        return BASS.BASS_ChannelBytes2Seconds(i2, BASS.BASS_ChannelGetLength(i2, 0)).toInt()
     }
 
     companion object {

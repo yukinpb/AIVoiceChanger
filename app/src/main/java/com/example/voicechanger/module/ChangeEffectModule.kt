@@ -4,53 +4,59 @@ import android.content.Context
 import android.util.Log
 import com.example.voicechanger.model.AudioAttrModel
 import com.example.voicechanger.utils.toast
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import com.un4seen.bass.BASS
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import java.io.File
+import java.io.IOException
+import java.io.InputStreamReader
+import java.nio.charset.StandardCharsets
 
 class ChangeEffectModule(
     private val context: Context
 ) {
-    private var modelEffects = ArrayList<AudioAttrModel>()
+    private var isInit = false
+    private var modelEffects = mutableListOf<AudioAttrModel>()
     private var audioPath: String = ""
     private var indexPLaying: Int? = null
     private var mediaPlayer: BASSMediaPlayer? = null
+
+    init {
+        onInitAudioDevice()
+    }
 
     fun setAudioPath(audioPath: String) {
         this.audioPath = audioPath
     }
 
-    fun insertEffect(effects: String?) {
-        effects?.let {
-            val parsedEffects = ParsingJsonObjects.jsonToObjectEffects(it)
-            parsedEffects?.let { effects ->
-                modelEffects.addAll(effects)
-            }
-        }
+    private fun parseAudioAttrModels(context: Context): List<AudioAttrModel> {
+        val gson = Gson()
+        val inputStream = context.assets.open("effects.json")
+        val reader = InputStreamReader(inputStream)
+        val type = object : TypeToken<List<AudioAttrModel>>() {}.type
+        return gson.fromJson(reader, type)
     }
 
     fun saveEffect(finalFile: File, onSuccess: () -> Unit) {
         saveEffect(modelEffects[indexPLaying!!], finalFile, onSuccess)
     }
 
-    fun createMediaPlayer(onMediaCompleted: () -> Unit) {
+    fun prepare() {
         if (audioPath.isNotEmpty()) {
             mediaPlayer = BASSMediaPlayer(audioPath)
             mediaPlayer?.prepare()
-            this.mediaPlayer?.setMediaListener(object : MediaListener {
-                override fun onMediaErrorListener() {}
-
-                override fun onMediaCompleteListener() {
-                    modelEffects[indexPLaying!!].isPlaying = false
-                    indexPLaying = null
-                    onMediaCompleted()
-                }
-            })
         } else {
             context.toast("Media file not found!")
         }
+    }
+
+    fun setMediaListener(mediaListener: MediaListener) {
+        mediaPlayer?.setMediaListener(mediaListener)
     }
 
     fun getMediaPlayer(): BASSMediaPlayer? {
@@ -58,7 +64,6 @@ class ChangeEffectModule(
     }
 
     fun applyEffect(i: Int) {
-        Log.d(TAG, "audioPath: $audioPath")
         if (audioPath.isNotEmpty()) {
             val file = File(audioPath)
             if (!file.exists() || !file.isFile) {
@@ -75,8 +80,6 @@ class ChangeEffectModule(
 
     private fun applyEffect(modelEffects: AudioAttrModel) {
         if (modelEffects.isPlaying) {
-            modelEffects.isPlaying = false
-            mediaPlayer?.pause()
             return
         }
         onStateReset()
@@ -109,9 +112,10 @@ class ChangeEffectModule(
         if (mediaPlayer != null) {
             val mediaPlayer = BASSMediaPlayer(audioPath)
 
-            CoroutineScope(Dispatchers.Main).launch {
+            runBlocking  {
                 withContext(Dispatchers.IO) {
                     if (mediaPlayer.initSolveToMedia()) {
+                        Log.d("hainv", "saveEffect: 1")
                         mediaPlayer.setReverse(modelEffects.isReverse)
                         mediaPlayer.setPitch(modelEffects.pitch)
                         mediaPlayer.setCompressor(modelEffects.compressor)
@@ -136,6 +140,28 @@ class ChangeEffectModule(
                 }
                 onSuccess()
             }
+        }
+    }
+
+    private fun onInitAudioDevice() {
+        if (isInit) {
+            return
+        }
+        isInit = true
+        modelEffects.addAll(parseAudioAttrModels(context))
+        if (!BASS.BASS_Init(-1, 44100, 0)) {
+            Exception("VoiceChangerModule Can't initialize device").printStackTrace()
+            isInit = false
+            return
+        }
+        val str = context.applicationInfo.nativeLibraryDir
+        try {
+            BASS.BASS_PluginLoad("$str/libbass_fx.so", 0)
+            BASS.BASS_PluginLoad("$str/libbassmix.so", 0)
+            BASS.BASS_PluginLoad("$str/libbassenc.so", 0)
+            BASS.BASS_PluginLoad("$str/libbasswv.so", 0)
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
